@@ -79,7 +79,7 @@ void setup()
 {
 	Serial.begin(115200);
 	BT.begin(9600);
- /* hola */
+ /* hola soc el Pau */
 }
 
 void delayTs(unsigned int slices)
