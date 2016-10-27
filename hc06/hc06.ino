@@ -79,11 +79,7 @@ void setup()
 {
 	Serial.begin(115200);
 	BT.begin(9600);
-	/*
-		Serial.println("AT+BAUD4");
-		delay(100);
-		Serial.println("AT+NAME22ENREPOSO");
-	*/
+ /* hola */
 }
 
 void delayTs(unsigned int slices)
