@@ -12,10 +12,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:ignore="UselessParent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        tools:ignore="UselessParent">
+        android:layout_alignParentStart="true">
 
         <TextView
             android:text="@string/connectar_bluetooth_text"
@@ -26,7 +26,7 @@
             android:layout_alignParentEnd="true"
             android:textAlignment="center"
             android:textSize="24sp"
-            android:textColor="@android:color/black">
+            android:textColor="@color/colorBlack">
         </TextView>
 
         <Button
@@ -40,6 +40,16 @@
             android:layout_alignParentStart="true">
         </Button>
 
+        <Button
+            android:text="@string/buscar_dispositius_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buscardisp"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+        </Button>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,15 +61,5 @@
             android:id="@+id/llistadisp"
             android:layout_below="@+id/emparellats">
         </ListView>
-
-        <Button
-            android:text="@string/buscar_dispositius_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buscardisp"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true">
-        </Button>
     </RelativeLayout>
 </RelativeLayout>

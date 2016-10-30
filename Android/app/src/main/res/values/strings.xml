@@ -11,5 +11,6 @@
     <string name="desconnectar_text">Desconnectar</string>
     <string name="tilt_body_text">Tilt Body</string>
     <string name="calibrar_text">Calibrar</string>
-    <string name="estat_text">TextView</string>
+    <string name="estat_text">Estat: </string>
+    <string name="stop_acc_text">Stop</string>
 </resources>
