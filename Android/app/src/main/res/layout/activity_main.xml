@@ -19,7 +19,7 @@
         tools:ignore="UselessParent">
 
         <TextView
-            android:text="Connectar Bluetooth"
+            android:text="@string/connectar_bluetooth_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
@@ -31,13 +31,14 @@
         </TextView>
 
         <Button
-            android:text="Emparellats"
+            android:text="@string/emparellats_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/emparellats"
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="true">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
         </Button>
 
         <ListView
@@ -53,7 +54,7 @@
         </ListView>
 
         <Button
-            android:text="Buscar dispositius"
+            android:text="@string/buscar_dispositius_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buscardisp"

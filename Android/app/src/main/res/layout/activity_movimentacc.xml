@@ -21,7 +21,7 @@
     </Button>
 
     <Button
-        android:text="Calibrar"
+        android:text="@string/calibrar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/calibrar"
@@ -31,7 +31,7 @@
     </Button>
 
     <TextView
-        android:text="TextView"
+        android:text="@string/estat_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
