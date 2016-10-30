@@ -258,6 +258,7 @@ public class Moviment extends AppCompatActivity
 			{
 				Intent i=new Intent(Moviment.this,Movimentacc.class);
 				startActivity(i);
+				finish();
 			}
 		});
 
@@ -280,7 +281,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error up", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error up");
 			}
 		}
 	}
@@ -295,7 +296,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error down", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error down");
 			}
 		}
 	}
@@ -310,7 +311,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error left", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error left");
 			}
 		}
 	}
@@ -325,7 +326,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error right", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error right");
 			}
 		}
 	}
@@ -340,7 +341,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error stop", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error stop");
 			}
 		}
 	}
@@ -355,7 +356,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error up right", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error up right");
 			}
 		}
 	}
@@ -370,7 +371,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error up left", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error up left");
 			}
 		}
 	}
@@ -385,7 +386,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error down right", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error down right");
 			}
 		}
 	}
@@ -400,7 +401,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error down left", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error down left");
 			}
 		}
 	}
@@ -415,7 +416,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error open left arm", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error open left arm");
 			}
 		}
 	}
@@ -430,7 +431,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error close left arm", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error close left arm");
 			}
 		}
 	}
@@ -445,7 +446,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error open right arm", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error open right arm");
 			}
 		}
 	}
@@ -460,7 +461,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error close right arm", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error close right arm");
 			}
 		}
 	}
@@ -475,7 +476,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error tilt body left", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error tilt body left");
 			}
 		}
 	}
@@ -490,7 +491,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error tilt body right", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error tilt body right");
 			}
 		}
 	}
@@ -505,7 +506,7 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error close left arm", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error close left arm");
 			}
 		}
 	}
@@ -520,9 +521,22 @@ public class Moviment extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				Toast.makeText(getApplicationContext(), "Error close right arm", Toast.LENGTH_SHORT).show();
+				mostrarToast("Error close right arm");
 			}
 		}
+	}
+
+	public void mostrarToast(String msg)
+	{
+		final String str = msg;
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 
@@ -553,7 +567,8 @@ public class Moviment extends AppCompatActivity
 			catch (IOException e)
 			{
 				shaconnectat = false;
-				Toast.makeText(getApplicationContext(), "Excepcio: " + e.getMessage() + "!", Toast.LENGTH_LONG).show();
+				finish();
+				//Toast.makeText(getApplicationContext(), "Excepcio: " + e.getMessage() + "!", Toast.LENGTH_LONG).show();
 			}
 			return null;
 		}
@@ -576,5 +591,21 @@ public class Moviment extends AppCompatActivity
 		{
 			shaconnectat = estat;
 		}
+	}
+
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		try
+		{
+			btSocket.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		connexioBT.cancel(true);
+		miBT.disable();
 	}
 }
