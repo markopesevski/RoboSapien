@@ -60,6 +60,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		SensorManager sensors;
 		Button tornarenradere;
 		Button calibrar;
+		Button stop_acc;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_movimentacc);
@@ -67,6 +68,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		calibrar = (Button)findViewById(R.id.calibrar);
 		tornarenradere = (Button)findViewById(R.id.tornarenradere);
 		estats = (TextView) findViewById(R.id.estats);
+		stop_acc = (Button)findViewById(R.id.stop_acc);
 
 		sensors = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensors.registerListener(this, sensors.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_UI);
@@ -88,6 +90,18 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 			public void onClick(View v)
 			{
 				mesurar = true;
+			}
+		});
+
+		stop_acc.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				if (Moviment.btSocket != null)
+				{
+					myMoviment.stop();
+				}
 			}
 		});
 	}
