@@ -18,11 +18,10 @@ import java.util.UUID;
 
 public class Moviment extends AppCompatActivity
 {
-    private static String nomBT;
     private static String dirBT;
     public static BluetoothSocket btSocket = null;
-    public static BluetoothAdapter miBT = null;
-    public static final UUID UUIDserie = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static BluetoothAdapter miBT = null;
+    private static final UUID UUIDserie = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private final ConnectarBT connexioBT = new ConnectarBT();
 
     @Override
@@ -72,7 +71,6 @@ public class Moviment extends AppCompatActivity
 
         Intent intentanterior = getIntent();
         dirBT = intentanterior.getStringExtra(Connexio.DIRECCIO_EXTRA);
-        nomBT = intentanterior.getStringExtra(Connexio.NOMBT_EXTRA);
 
         connexioBT.execute();
 
@@ -345,7 +343,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void up_right()
+    private void up_right()
     {
         if (btSocket != null)
         {
@@ -360,7 +358,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void up_left()
+    private void up_left()
     {
         if (btSocket != null)
         {
@@ -375,7 +373,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void down_right()
+    private void down_right()
     {
         if (btSocket != null)
         {
@@ -390,7 +388,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void down_left()
+    private void down_left()
     {
         if (btSocket != null)
         {
@@ -405,7 +403,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void open_left_arm()
+    private void open_left_arm()
     {
         if (btSocket != null)
         {
@@ -420,7 +418,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void close_left_arm()
+    private void close_left_arm()
     {
         if (btSocket != null)
         {
@@ -435,7 +433,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void open_right_arm()
+    private void open_right_arm()
     {
         if (btSocket != null)
         {
@@ -450,7 +448,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void close_right_arm()
+    private void close_right_arm()
     {
         if (btSocket != null)
         {
@@ -495,7 +493,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void grip_left()
+    private void grip_left()
     {
         if (btSocket != null)
         {
@@ -510,7 +508,7 @@ public class Moviment extends AppCompatActivity
         }
     }
 
-    public void grip_right()
+    private void grip_right()
     {
         if (btSocket != null)
         {

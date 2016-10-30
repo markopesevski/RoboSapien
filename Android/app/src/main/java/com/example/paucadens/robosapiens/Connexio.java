@@ -21,23 +21,22 @@ import java.util.ArrayList;
 
 public class Connexio extends AppCompatActivity
 {
-
-	Button emparellats_bttn,buscardisp_bttn;
-	ListView llistadisp;
-
-	private ArrayList<String> llista = new ArrayList<>();
+	private final ArrayList<String> llista = new ArrayList<>();
 	private ArrayAdapter<String> adaptat;
 
 	private BluetoothAdapter miBluetooth = null;
 
 	private ProgressDialog progres;
 
-	public static String DIRECCIO_EXTRA = "Direccio BT";
-	public static String NOMBT_EXTRA = "Nom BT";
+	public static final String DIRECCIO_EXTRA = "Direccio BT";
+	public static final String NOMBT_EXTRA = "Nom BT";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		Button emparellats_bttn,buscardisp_bttn;
+		ListView llistadisp;
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -140,7 +139,7 @@ public class Connexio extends AppCompatActivity
 		super.onDestroy();
 	}
 
-	private AdapterView.OnItemClickListener listenerllista = new AdapterView.OnItemClickListener()
+	private final AdapterView.OnItemClickListener listenerllista = new AdapterView.OnItemClickListener()
 	{
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)

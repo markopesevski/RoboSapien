@@ -22,11 +22,9 @@ import static java.lang.Math.abs;
 
 public class Movimentacc extends AppCompatActivity implements SensorEventListener
 {
-    double ax, ay, az;
-    float cx, cy, cz;
+    private float cx, cy, cz;
     private static boolean mesurar = false;
     private static boolean calibrat = false;
-    TextView sx, sy, sz;
     private static final float [] lecturaAccelerometre = new float[3];
     private static final float [] lecturaMagnetometre = new float[3];
     private static final float [] matriuRotacio = new float[9];
@@ -41,8 +39,8 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
         tilt_dreta,
         endarrere
     }
-    t_moviments estat = parat;
-    Moviment myMoviment;
+    private static final t_moviments estat = parat;
+    private final Moviment myMoviment = new Moviment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,9 +54,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 
         calibrar = (Button)findViewById(R.id.calibrar);
         tornarenradere = (Button)findViewById(R.id.tornarenradere);
-        sx = (TextView) findViewById(R.id.sx);
-        sy = (TextView) findViewById(R.id.sy);
-        sz = (TextView) findViewById(R.id.sz);
+        //sx = (TextView) findViewById(R.id.sx);
 
         sensors = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensors.registerListener(this, sensors.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_UI);
@@ -121,27 +117,25 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
             angles[2]=angles[2]-cy;
         }
 
-        sz.setText("Angle z: "+Float.toString(angles[0]));
-        sx.setText("Angle x: "+Float.toString(angles[1]));
-        sy.setText("Angle y: "+Float.toString(angles[2]));
+        //sz.setText("Angle z: "+Float.toString(angles[0]));
 
-        ax = angles[1];
-        ay = angles[2];
-        az = angles[0];
+        double ax = angles[1];
+        double ay = angles[2];
+        double az = angles[0];
 
-        if (Moviment.btSocket != null && (ax>40 && abs(ay)<10 && abs(az)<10) && estat != endavant)
+        if (Moviment.btSocket != null && (ax >40 && abs(ay)<10 && abs(az)<10) && estat != endavant)
         {
             myMoviment.up();
         }
-        else if (Moviment.btSocket != null && (ax<-40 && abs(ay)<10 && abs(az)<10) && estat != endarrere)
+        else if (Moviment.btSocket != null && (ax <-40 && abs(ay)<10 && abs(az)<10) && estat != endarrere)
         {
             myMoviment.down();
         }
-        else if (Moviment.btSocket != null && (abs(ax)<10 && ay<-20 && az<-40) && estat != gira_esquerra)
+        else if (Moviment.btSocket != null && (abs(ax)<10 && ay <-20 && az <-40) && estat != gira_esquerra)
         {
             myMoviment.left();
         }
-        else if (Moviment.btSocket != null && (abs(ax)<10 && ay>20 && az>40) && estat != gira_dreta)
+        else if (Moviment.btSocket != null && (abs(ax)<10 && ay >20 && az >40) && estat != gira_dreta)
         {
             myMoviment.right();
         }
@@ -149,11 +143,11 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
         {
             myMoviment.stop();
         }
-        else if (Moviment.btSocket != null && (abs(ax)<10 && ay>40 && abs(az)<10) && estat != tilt_dreta)
+        else if (Moviment.btSocket != null && (abs(ax)<10 && ay >40 && abs(az)<10) && estat != tilt_dreta)
         {
             myMoviment.tilt_body_right();
         }
-        else if (Moviment.btSocket != null && (abs(ax)<10 && ay<-40 && abs(az)<10) && estat != tilt_esquerra)
+        else if (Moviment.btSocket != null && (abs(ax)<10 && ay <-40 && abs(az)<10) && estat != tilt_esquerra)
         {
             myMoviment.tilt_body_left();
         }
