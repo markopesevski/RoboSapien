@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import static com.example.paucadens.robosapiens.Movimentacc.t_moviments.endarrere;
 import static com.example.paucadens.robosapiens.Movimentacc.t_moviments.endavant;
@@ -40,6 +41,18 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 	}
 	private static final t_moviments estat = parat;
 	private final Moviment myMoviment = new Moviment();
+	private static final String[] estats_text =
+	{
+		"Status: Forwards",
+		"Status: Backwards",
+		"Status: Moving Left",
+		"Status: Moving Right",
+		"Status: Tilting Left",
+		"Status: Tilting Right",
+		"Status: Stopped"
+	};
+	private static int estats_index = 6;
+	private TextView estats;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -53,7 +66,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 
 		calibrar = (Button)findViewById(R.id.calibrar);
 		tornarenradere = (Button)findViewById(R.id.tornarenradere);
-		//sx = (TextView) findViewById(R.id.sx);
+		estats = (TextView) findViewById(R.id.estats);
 
 		sensors = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensors.registerListener(this, sensors.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_UI);
@@ -116,8 +129,6 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 			angles[2]=angles[2]-cy;
 		}
 
-		//sz.setText("Angle z: "+Float.toString(angles[0]));
-
 		double ax = angles[1];
 		double ay = angles[2];
 		double az = angles[0];
@@ -125,30 +136,39 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		if (Moviment.btSocket != null && (ax >40 && abs(ay)<10 && abs(az)<10) && estat != endavant)
 		{
 			myMoviment.up();
+			estats_index = 0;
 		}
 		else if (Moviment.btSocket != null && (ax <-40 && abs(ay)<10 && abs(az)<10) && estat != endarrere)
 		{
 			myMoviment.down();
+			estats_index = 1;
 		}
 		else if (Moviment.btSocket != null && (abs(ax)<10 && ay <-20 && az <-40) && estat != gira_esquerra)
 		{
 			myMoviment.left();
+			estats_index = 2;
 		}
 		else if (Moviment.btSocket != null && (abs(ax)<10 && ay >20 && az >40) && estat != gira_dreta)
 		{
 			myMoviment.right();
-		}
-		else if (Moviment.btSocket != null && (abs(ax)<10 && abs(ay)<10 && abs(az)<10) && estat != parat)
-		{
-			myMoviment.stop();
+			estats_index = 3;
 		}
 		else if (Moviment.btSocket != null && (abs(ax)<10 && ay >40 && abs(az)<10) && estat != tilt_dreta)
 		{
 			myMoviment.tilt_body_right();
+			estats_index = 4;
 		}
 		else if (Moviment.btSocket != null && (abs(ax)<10 && ay <-40 && abs(az)<10) && estat != tilt_esquerra)
 		{
 			myMoviment.tilt_body_left();
+			estats_index = 5;
 		}
+		else if (Moviment.btSocket != null && (abs(ax)<10 && abs(ay)<10 && abs(az)<10) && estat != parat)
+		{
+			myMoviment.stop();
+			estats_index = 6;
+		}
+
+		estats.setText(estats_text[estats_index]);
 	}
 }
