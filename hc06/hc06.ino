@@ -138,43 +138,43 @@ void loop()
 		}
 		else if (inbytes == 'f')
 		{
-		  writeCommand(tiltBodyRight);
+		  writeCommand(rightArmUp);
 		}
 		else if (inbytes == 'g')
 		{
-		  writeCommand(tiltBodyLeft);
+		  writeCommand(leftArmUp);
 		}
 		else if (inbytes == 'h')
 		{
-		  writeCommand(rightArmUp);
+		  writeCommand(rightArmDown);
 		}
 		else if (inbytes == 'i')
 		{
-		  writeCommand(leftArmUp);
+		  writeCommand(leftArmDown);
 		}
 		else if (inbytes == 'j')
 		{
-		  writeCommand(rightArmDown);
+		  writeCommand(leftArmOut);
 		}
 		else if (inbytes == 'k')
 		{
-		  writeCommand(leftArmDown);
+		  writeCommand(leftArmIn);
 		}
 		else if (inbytes == 'l') //obrir ma esquerra
 		{
-		  writeCommand(leftArmOut);
+		  writeCommand(rightArmOut);
 		}
 		else if (inbytes == 'm') //tancar ma esquerra
 		{
-		  writeCommand(leftArmIn);
+		  writeCommand(rightArmIn);
 		}
 		else if (inbytes == 'n') //obrir ma dreta
 		{
-		  writeCommand(rightArmOut);
+		  writeCommand(tiltBodyLeft);
 		}
 		else if (inbytes == 'o') // tancar ma dreta
 		{
-		  writeCommand(rightArmIn);
+		  writeCommand(tiltBodyRight);
 		}
 		else if (inbytes == 'p') // tancar garra esquerra
 		{
