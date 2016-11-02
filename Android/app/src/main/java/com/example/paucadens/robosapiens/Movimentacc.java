@@ -22,7 +22,7 @@ import static java.lang.Math.abs;
 
 public class Movimentacc extends AppCompatActivity implements SensorEventListener
 {
-	private float cx, cy, cz;
+	private float cx = 0, cy = 0, cz = 0;
 	private static boolean mesurar = false;
 	private static final float [] lecturaAccelerometre = new float[3];
 	private static final float [] lecturaMagnetometre = new float[3];
@@ -38,7 +38,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		tilt_dreta,
 		endarrere
 	}
-	private static final t_moviments estat = parat;
+	private static t_moviments estat = parat;
 	private final Moviment myMoviment = new Moviment();
 	private static final String[] estats_text =
 	{
@@ -46,15 +46,15 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		"Status: Backwards",
 		"Status: Moving Left",
 		"Status: Moving Right",
-		"Status: Tilting Left",
 		"Status: Tilting Right",
-		"Status: Stopped"
+		"Status: Tilting Left",
+		"Status: Stopped",
+		"Status: Not Sending Commands"
 	};
 	private static int estats_index = 6;
 	private TextView estats;
 	private static boolean enviar_comandes = false;
 	private Button stop_acc;
-	private static BTHelper myBTHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -65,8 +65,6 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_movimentacc);
-
-		myBTHelper = new BTHelper(Movimentacc.this);
 
 		calibrar = (Button)findViewById(R.id.calibrar);
 		tornarenradere = (Button)findViewById(R.id.tornarenradere);
@@ -116,6 +114,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 			stop_acc.setBackgroundResource(R.drawable.cercle_verd);
 			stop_acc.setTextColor(0x000000);
 			stop_acc.setText(R.string.start_acc_text);
+			estats.setText(estats_text[7]);
 		}
 		else
 		{
@@ -145,6 +144,15 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		angles[1] = angles[1] * (180 / 3.141592f);
 		angles[2] = angles[2] * (180 / 3.141592f);
 
+		if (mesurar)
+		{
+			cz = angles[0];
+			cx = angles[1];
+			cy = angles[2];
+			mesurar = false;
+			enviar_comandes = true;
+		}
+
 		angles[0] = angles[0] - cz;
 		angles[1] = angles[1] - cx;
 		angles[2] = angles[2] - cy;
@@ -155,37 +163,50 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 
 		if(enviar_comandes)
 		{
-			if ((ax > 40 && abs(ay) < 10 && abs(az) < 10) && estat != endavant) {
+			if ((ax > 40 && abs(ay) < 10 && abs(az) < 10) && estat != endavant)
+			{
+				estat = endavant;
 				myMoviment.up();
 				estats_index = 0;
-			} else if ((ax < -40 && abs(ay) < 10 && abs(az) < 10) && estat != endarrere) {
+			}
+			else if ((ax < -40 && abs(ay) < 10 && abs(az) < 10) && estat != endarrere)
+			{
+				estat = endarrere;
 				myMoviment.down();
 				estats_index = 1;
-			} else if ((abs(ax) < 10 && ay < -20 && az < -40) && estat != gira_esquerra) {
+			}
+			else if ((abs(ax) < 10 && ay < -20 && az < -40) && estat != gira_esquerra)
+			{
+				estat = gira_esquerra;
 				myMoviment.left();
 				estats_index = 2;
-			} else if ((abs(ax) < 10 && ay > 20 && az > 40) && estat != gira_dreta) {
+			}
+			else if ((abs(ax) < 10 && ay > 20 && az > 40) && estat != gira_dreta)
+			{
+				estat = gira_dreta;
 				myMoviment.right();
 				estats_index = 3;
-			} else if ((abs(ax) < 10 && ay > 40 && abs(az) < 10) && estat != tilt_dreta) {
+			}
+			else if ((abs(ax) < 10 && ay > 40 && abs(az) < 10) && estat != tilt_dreta)
+			{
+				estat = tilt_dreta;
 				myMoviment.tilt_body_right();
 				estats_index = 4;
-			} else if ((abs(ax) < 10 && ay < -40 && abs(az) < 10) && estat != tilt_esquerra) {
+			}
+			else if ((abs(ax) < 10 && ay < -40 && abs(az) < 10) && estat != tilt_esquerra)
+			{
+				estat = tilt_esquerra;
 				myMoviment.tilt_body_left();
 				estats_index = 5;
-			} else if ((abs(ax) < 10 && abs(ay) < 10 && abs(az) < 10) && estat != parat) {
+			}
+			else if ((abs(ax) < 10 && abs(ay) < 10 && abs(az) < 10) && estat != parat)
+			{
+				estat = parat;
 				myMoviment.stop();
 				estats_index = 6;
 			}
 
 			estats.setText(estats_text[estats_index]);
-		}
-		else if (mesurar)
-		{
-			cz = angles[0];
-			cx = angles[1];
-			cy = angles[2];
-			mesurar = false;
 		}
 	}
 
