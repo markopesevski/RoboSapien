@@ -107,6 +107,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 
 	private void stop()
 	{
+		// TODO revisar si els colors son correctes o que
 		if(enviar_comandes)
 		{
 			enviar_comandes = false;

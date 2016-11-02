@@ -39,6 +39,7 @@ public class BTHelper extends AppCompatActivity
 		{
 			if (!myBluetoothAdapter.isEnabled())
 			{
+				// TODO perque peta aqui
 				Intent activateBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 				startActivityForResult(activateBT, 1);
 			}
@@ -75,6 +76,7 @@ public class BTHelper extends AppCompatActivity
 		myBluetoothAdapter.cancelDiscovery();
 	}
 
+	// TODO perque peta aqui
 	public void searchDevices(ArrayAdapter<String> listAdapter, ProgressDialog progress)
 	{
 		myArrayAdapter = listAdapter;
@@ -134,6 +136,7 @@ public class BTHelper extends AppCompatActivity
 		@Override
 		protected Void doInBackground(Context... context)
 		{
+			// TODO veure perque no s'espera fins que s'ha connectat per amagar el ProgressDialog
 			myShowDialog(context[0], "Connectant...", "Espera");
 			try
 			{
