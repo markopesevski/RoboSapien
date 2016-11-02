@@ -10,74 +10,63 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.Set;
-
-import static com.example.paucadens.robosapiens.Moviment.btSocket;
+import java.util.UUID;
 
 public class BTHelper extends AppCompatActivity
 {
 	private static BluetoothAdapter myBluetoothAdapter = null;
-	private static ArrayAdapter<String> myAdapter;
-	private static ProgressDialog myProgress;
+	private static ArrayAdapter<String> myArrayAdapter = null;
+	private static ProgressDialog myProgress = null;
 	private static BluetoothDevice myBluetoothDevice = null;
-	public static BluetoothSocket myBluetoothSocket = null;
+	private static BluetoothSocket myBluetoothSocket = null;
+	private static boolean isDeviceSelected = false;
+	private static boolean isConnected = false;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public BTHelper(Context context)
 	{
-		super.onCreate(savedInstanceState);
 		myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
 		if (myBluetoothAdapter == null)
 		{
-			Toast.makeText(getApplicationContext(),"No hi ha Bluetooth en aquest dispositiu", Toast.LENGTH_LONG).show();
+			showToast(context, "No hi ha Bluetooth en aquest dispositiu");
 		}
 		else
 		{
 			if (!myBluetoothAdapter.isEnabled())
 			{
-				Intent ActivaBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				startActivityForResult(ActivaBT,1);
+				Intent activateBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				startActivityForResult(activateBT, 1);
 			}
 		}
 	}
 
-	public void searchDevices(ArrayAdapter<String> adaptadorLlista, ProgressDialog progres)
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
 	{
-		myAdapter = adaptadorLlista;
-		myProgress = progres;
-
-		// Register the BroadcastReceiver
-		IntentFilter myFilter = new IntentFilter();
-		myFilter.addAction(BluetoothDevice.ACTION_FOUND);
-		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		registerReceiver(myReceiver, myFilter); // Don't forget to unregister during onDestroy
-		myBluetoothAdapter.startDiscovery();
+		super.onCreate(savedInstanceState);
 	}
 
-	public void showPaired(ArrayAdapter<String> adaptadorLlista)
+	public void showPaired(Context context, ArrayAdapter<String> adaptadorLlista, ProgressDialog progress)
 	{
-		myAdapter = adaptadorLlista;
-		Set<BluetoothDevice> dispemparellats;
-		myAdapter.clear();
-		if (myBluetoothAdapter.getBondedDevices().size()>0)
+		myArrayAdapter = adaptadorLlista;
+		myArrayAdapter.clear();
+		myProgress = progress;
+
+		if (myBluetoothAdapter.getBondedDevices().size() > 0)
 		{
-			int tamany = myBluetoothAdapter.getBondedDevices().size();
-			int i = 0;
-			for (i = 0; i < tamany; i++)
+			for(BluetoothDevice device : myBluetoothAdapter.getBondedDevices())
 			{
-				adaptadorLlista.add(myBluetoothDevice.getName() + "\n" + myBluetoothDevice.getAddress());
+				adaptadorLlista.add(device.getName() + "\n" + device.getAddress());
 			}
 		}
 		else
 		{
-			Toast.makeText(getApplicationContext(), "No hi ha dispositius emparellats", Toast.LENGTH_LONG).show();
+			showToast(context, "No hi ha dispositius emparellats");
 		}
 	}
 
@@ -86,19 +75,28 @@ public class BTHelper extends AppCompatActivity
 		myBluetoothAdapter.cancelDiscovery();
 	}
 
-	// Create a BroadcastReceiver for ACTION_FOUND
+	public void searchDevices(ArrayAdapter<String> listAdapter, ProgressDialog progress)
+	{
+		myArrayAdapter = listAdapter;
+		myProgress = progress;
+
+		IntentFilter myFilter = new IntentFilter();
+		myFilter.addAction(BluetoothDevice.ACTION_FOUND);
+		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		registerReceiver(myReceiver, myFilter);
+		myBluetoothAdapter.startDiscovery();
+	}
+
 	private final BroadcastReceiver myReceiver = new BroadcastReceiver()
 	{
 		public void onReceive(Context context, Intent intent)
 		{
 			String action = intent.getAction();
-			// When discovery finds a device
 			if (BluetoothDevice.ACTION_FOUND.equals(action))
 			{
-				// Get the BluetoothDevice object from the Intent
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				// Add the name and address to an array adapter to show in a ListView
-				myAdapter.add(device.getName() + "\n" + device.getAddress());
+				myArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 			}
 			else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action))
 			{
@@ -111,85 +109,151 @@ public class BTHelper extends AppCompatActivity
 		}
 	};
 
-	public void openSocket(ProgressDialog progress)
+	public void setSelectedBTDevice(String deviceMAC)
 	{
-		new connectToSocket(progress).execute;
+		myBluetoothDevice = myBluetoothAdapter.getRemoteDevice(deviceMAC);
+		isDeviceSelected = true;
 	}
 
-	private class connectToSocket extends AsyncTask<ProgressDialog, Void, ProgressDialog>
+	public void openSocket(Context context)
 	{
-		private boolean isConnected = true;
-
-		@Override
-		protected void onPreExecute(ProgressDialog... progress)
+		if(isDeviceSelected)
 		{
-			progress.show(getApplicationContext(), "Connectant...", "Espera");
+			new connectToSocket().execute(context);
 		}
+		else
+		{
+			showToast(context, "Device not selected!");
+		}
+	}
+
+	private class connectToSocket extends AsyncTask<Context, Void, Void>
+	{
+		private final UUID UUIDserie = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 		@Override
-		protected Void doInBackground(ProgressDialog... progress)
+		protected Void doInBackground(Context... context)
 		{
+			myShowDialog(context[0], "Connectant...", "Espera");
 			try
 			{
 				if (myBluetoothSocket == null || !isConnected)
 				{
-					BluetoothDevice disp = miBT.getRemoteDevice(dirBT);
-					btSocket = disp.createInsecureRfcommSocketToServiceRecord(UUIDserie);
-					btSocket.connect();
+					myBluetoothSocket = myBluetoothDevice.createInsecureRfcommSocketToServiceRecord(UUIDserie);
+					myBluetoothSocket.connect();
 				}
+				isConnected = true;
 			}
 			catch (IOException e)
 			{
 				isConnected = false;
-				finish();
 			}
 			return null;
 		}
 
 		@Override
-		protected void onPostExecute(ProgressDialog... progress)
-		{
-			progress.dismiss();
-			if (!isConnected)
+		protected void onPostExecute(Void params) {
+			while(!isConnected)
 			{
-				showToast("Error de connexió!");
 			}
-			else
+			if(isConnected)
 			{
-				showToast("Connectat");
+				dismissDialog();
 			}
-		}
-
-		@Override
-		protected ProgressDialog doInBackground(ProgressDialog... params) {
-			return null;
 		}
 	}
 
-	public void sendOnSocket(BluetoothSocket socket, String str)
+	public void sendString(Context context, String str, String errMsg)
 	{
-		if (socket != null)
+		if (myBluetoothSocket != null && isConnected)
 		{
 			try
 			{
-				socket.getOutputStream().write(str.getBytes());
+				myBluetoothSocket.getOutputStream().write(str.getBytes());
 			}
 			catch (IOException e)
 			{
-				showToast("Error writing" + str);
+				showToast(context, "Error sending: " + errMsg);
 			}
 		}
 	}
 
-	public void showToast(String msg)
+	public void disconnect(Context context)
 	{
+		try
+		{
+			myBluetoothSocket.close();
+			myBluetoothSocket = null;
+			isConnected = false;
+			myBluetoothDevice = null;
+			isDeviceSelected = false;
+			showToast(context, "Disconnected");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			showToast(context, "Error closing socket!");
+		}
+	}
+
+	private void showToast(Context context, String msg)
+	{
+		final String str = msg;
+		final Context where = context;
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					Toast.makeText(where, str, Toast.LENGTH_LONG).show();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	private void myShowDialog(Context context, String title, String msg)
+	{
+		final Context where = context;
+		final String tit = title;
 		final String str = msg;
 		runOnUiThread(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+				try
+				{
+					myProgress = ProgressDialog.show(where, tit, str);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	private void dismissDialog()
+	{
+		runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					myProgress.dismiss();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		});
 	}

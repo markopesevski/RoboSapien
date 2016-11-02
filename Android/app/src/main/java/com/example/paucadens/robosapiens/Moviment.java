@@ -1,28 +1,15 @@
 package com.example.paucadens.robosapiens;
 
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.UUID;
 
 public class Moviment extends AppCompatActivity
 {
-	private static String dirBT;
-	public static BluetoothSocket btSocket = null;
-	private static BluetoothAdapter miBT = null;
-	private static final UUID UUIDserie = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	private final ConnectarBT connexioBT = new ConnectarBT();
+	private static BTHelper myBTHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +36,9 @@ public class Moviment extends AppCompatActivity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
+
+		myBTHelper = new BTHelper(Moviment.this);
+
 		up = (Button) findViewById(R.id.up);
 		down = (Button) findViewById(R.id.down);
 		stop = (ImageView) findViewById(R.id.stop);
@@ -69,30 +59,13 @@ public class Moviment extends AppCompatActivity
 		gripLeft = (Button) findViewById(R.id.gripLeft);
 		gripRight = (Button) findViewById(R.id.gripRight);
 
-		Intent intentanterior = getIntent();
-		dirBT = intentanterior.getStringExtra(Connexio.DIRECCIO_EXTRA);
-
-		connexioBT.execute();
-
 		desconnectar.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
+				myBTHelper.disconnect(Moviment.this);
 				Intent i=new Intent(Moviment.this,Connexio.class);
-				if (btSocket != null)
-				{
-					try
-					{
-						connexioBT.setShaconnectat(false);
-						btSocket.close();
-						miBT.disable();
-					}
-					catch (IOException e)
-					{
-						Toast.makeText(getApplicationContext(), "Error closing", Toast.LENGTH_SHORT).show();
-					}
-				}
 				startActivity(i);
 				finish();
 			}
@@ -264,348 +237,95 @@ public class Moviment extends AppCompatActivity
 
 
 	}
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		new ConnectarBT().execute();
-	}
 
 	public void up()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("a".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error up");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "a", "Up");
 	}
 
 	public void down()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("b".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error down");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "b", "Down");
 	}
 
 	public void left()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("c".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error left");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "c", "Left");
 	}
 
 	public void right()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("d".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error right");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "d", "Right");
 	}
 
 	public void stop()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("e".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error stop");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "e", "Stop");
 	}
 
 	private void up_right()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("f".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error up right");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "f", "Right Arm Up");
 	}
 
 	private void up_left()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("g".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error up left");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "g", "Left Arm Up");
 	}
 
 	private void down_right()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("h".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error down right");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "h", "Right Arm Down");
 	}
 
 	private void down_left()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("i".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error down left");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "i", "Left Arm Down");
 	}
 
 	private void open_left_arm()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("j".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error open left arm");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "j", "Left Arm Open");
 	}
 
 	private void close_left_arm()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("k".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error close left arm");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "k", "Left Arm Close");
 	}
 
 	private void open_right_arm()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("l".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error open right arm");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "l", "Right Arm Open");
 	}
 
 	private void close_right_arm()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("m".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error close right arm");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "m", "Right Arm Close");
 	}
 
 	public void tilt_body_left()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("n".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error tilt body left");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "n", "Tilt Body Left");
 	}
 
 	public void tilt_body_right()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("o".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error tilt body right");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "o", "Tilt Body Right");
 	}
 
 	private void grip_left()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("p".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error close left arm");
-			}
-		}
+		myBTHelper.sendString(Moviment.this, "p", "Left Grip Action");
 	}
 
 	private void grip_right()
 	{
-		if (btSocket != null)
-		{
-			try
-			{
-				btSocket.getOutputStream().write("q".getBytes());
-			}
-			catch (IOException e)
-			{
-				mostrarToast("Error close right arm");
-			}
-		}
-	}
-
-	public void mostrarToast(String msg)
-	{
-		final String str = msg;
-		runOnUiThread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-			}
-		});
-	}
-
-
-	private class ConnectarBT extends AsyncTask<Void, Void, Void>
-	{
-		private boolean shaconnectat = true;
-		private ProgressDialog progres;
-
-		@Override
-		protected void onPreExecute()
-		{
-			progres = ProgressDialog.show(Moviment.this, "Connectant...", "Espera");
-		}
-
-		@Override
-		protected Void doInBackground(Void... params)
-		{
-			try
-			{
-				if (btSocket == null || !shaconnectat)
-				{
-					miBT = BluetoothAdapter.getDefaultAdapter();
-					BluetoothDevice disp = miBT.getRemoteDevice(dirBT);
-					btSocket = disp.createInsecureRfcommSocketToServiceRecord(UUIDserie);
-					btSocket.connect();
-				}
-			}
-			catch (IOException e)
-			{
-				shaconnectat = false;
-				finish();
-				//Toast.makeText(getApplicationContext(), "Excepcio: " + e.getMessage() + "!", Toast.LENGTH_LONG).show();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void aVoid)
-		{
-			if (!shaconnectat)
-			{
-				Toast.makeText(getApplicationContext(), "Error de connexió!", Toast.LENGTH_LONG).show();
-			}
-			else
-			{
-				Toast.makeText(getApplicationContext(), "Connectat", Toast.LENGTH_LONG).show();
-			}
-			progres.dismiss();
-		}
-
-		void setShaconnectat(boolean estat)
-		{
-			shaconnectat = estat;
-		}
+		myBTHelper.sendString(Moviment.this, "q", "Right Grip Action");
 	}
 
 	@Override
 	public void onDestroy()
 	{
 		super.onDestroy();
-		try
-		{
-			btSocket.close();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		connexioBT.cancel(true);
-		miBT.disable();
 	}
 }
