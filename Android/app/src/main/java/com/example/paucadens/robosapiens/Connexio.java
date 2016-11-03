@@ -1,6 +1,10 @@
 package com.example.paucadens.robosapiens;
 
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -55,11 +59,32 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.searchDevices(adaptat, progres);
+				myBTHelper.searchDevices(myReceiver, adaptat, progres);
 			}
 		});
 
 	}
+
+	private BroadcastReceiver myReceiver = new BroadcastReceiver()
+	{
+		public void onReceive(Context context, Intent intent)
+		{
+			String action = intent.getAction();
+			if (BluetoothDevice.ACTION_FOUND.equals(action))
+			{
+				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				myBTHelper.myArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+			}
+			else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action))
+			{
+				myBTHelper.myProgress = ProgressDialog.show(myBTHelper.myContext, "Buscant...", "Espera");
+			}
+			else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
+			{
+				myBTHelper.myProgress.dismiss();
+			}
+		}
+	};
 
 	private final AdapterView.OnItemClickListener listenerllista = new AdapterView.OnItemClickListener()
 	{
@@ -82,7 +107,8 @@ public class Connexio extends AppCompatActivity
 	@Override
 	public void onDestroy()
 	{
-		super.onDestroy();
+		unregisterReceiver(myReceiver);
 		myBTHelper.onDestroy();
+		super.onDestroy();
 	}
 }

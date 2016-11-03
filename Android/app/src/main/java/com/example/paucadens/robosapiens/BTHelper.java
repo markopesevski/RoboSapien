@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.media.MediaMetadataCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -21,16 +20,25 @@ import java.util.UUID;
 public class BTHelper extends AppCompatActivity
 {
 	private static BluetoothAdapter myBluetoothAdapter = null;
-	private static ArrayAdapter<String> myArrayAdapter = null;
-	private static ProgressDialog myProgress = null;
 	private static BluetoothDevice myBluetoothDevice = null;
 	private static BluetoothSocket myBluetoothSocket = null;
 	private static boolean isDeviceSelected = false;
 	private static boolean isConnected = false;
+	public static Intent myActivateBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+	public ArrayAdapter<String> myArrayAdapter = null;
+	public ProgressDialog myProgress = null;
+	public Context myContext = null;
 
 	public BTHelper(Context context)
 	{
 		myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		myContext = context;
+		isDeviceSelected = false;
+		isConnected = false;
+	}
+
+	public void checkBTEnabled()
+	{
 		if (myBluetoothAdapter == null)
 		{
 			showToast("No hi ha Bluetooth en aquest dispositiu");
@@ -39,9 +47,7 @@ public class BTHelper extends AppCompatActivity
 		{
 			if (!myBluetoothAdapter.isEnabled())
 			{
-				// TODO perque peta aqui
-				Intent activateBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				startActivityForResult(activateBT, 1);
+				myBluetoothAdapter.enable();
 			}
 		}
 	}
@@ -77,7 +83,7 @@ public class BTHelper extends AppCompatActivity
 	}
 
 	// TODO perque peta aqui
-	public void searchDevices(ArrayAdapter<String> listAdapter, ProgressDialog progress)
+	public void searchDevices(BroadcastReceiver receiver, ArrayAdapter<String> listAdapter, ProgressDialog progress)
 	{
 		myArrayAdapter = listAdapter;
 		myProgress = progress;
@@ -86,30 +92,9 @@ public class BTHelper extends AppCompatActivity
 		myFilter.addAction(BluetoothDevice.ACTION_FOUND);
 		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
 		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		registerReceiver(myReceiver, myFilter);
+		registerReceiver(receiver, myFilter);
 		myBluetoothAdapter.startDiscovery();
 	}
-
-	private final BroadcastReceiver myReceiver = new BroadcastReceiver()
-	{
-		public void onReceive(Context context, Intent intent)
-		{
-			String action = intent.getAction();
-			if (BluetoothDevice.ACTION_FOUND.equals(action))
-			{
-				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				myArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-			}
-			else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action))
-			{
-				myProgress = ProgressDialog.show(getApplicationContext(), "Buscant...", "Espera");
-			}
-			else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
-			{
-				myProgress.dismiss();
-			}
-		}
-	};
 
 	public void setSelectedBTDevice(String deviceMAC)
 	{
@@ -148,15 +133,24 @@ public class BTHelper extends AppCompatActivity
 				if (myBluetoothSocket == null || !isConnected)
 				{
 					myBluetoothSocket = myBluetoothDevice.createInsecureRfcommSocketToServiceRecord(UUIDserie);
+					publishProgress();
 					myBluetoothSocket.connect();
+					publishProgress();
+					isConnected = true;
+					publishProgress();
 				}
-				isConnected = true;
 			}
 			catch (IOException e)
 			{
 				isConnected = false;
 			}
 			return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... params)
+		{
+			myProgress.incrementProgressBy(10);
 		}
 
 		@Override
@@ -269,7 +263,14 @@ public class BTHelper extends AppCompatActivity
 	public void onDestroy()
 	{
 		super.onDestroy();
-		unregisterReceiver(myReceiver);
+		try
+		{
+			myBluetoothSocket.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
 
