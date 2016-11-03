@@ -36,7 +36,7 @@ public class Connexio extends AppCompatActivity
 		myBTHelper = new BTHelper(Connexio.this);
 		myBTHelper.checkBTEnabled();
 
-		adaptat = new ArrayAdapter<>(Connexio.this, android.R.layout.simple_list_item_1, llista);
+		adaptat = new ArrayAdapter<String>(Connexio.this, R.layout.custom_textview, llista);
 		progres = new ProgressDialog(Connexio.this);
 
 		emparellats_bttn = (Button) findViewById(R.id.emparellats);
