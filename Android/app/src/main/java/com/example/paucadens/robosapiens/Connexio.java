@@ -1,6 +1,10 @@
 package com.example.paucadens.robosapiens;
 
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +34,9 @@ public class Connexio extends AppCompatActivity
 		setContentView(R.layout.activity_main);
 
 		myBTHelper = new BTHelper(Connexio.this);
-		adaptat = new ArrayAdapter<>(Connexio.this, android.R.layout.simple_list_item_1, llista);
+		myBTHelper.checkBTEnabled();
+
+		adaptat = new ArrayAdapter<String>(Connexio.this, R.layout.custom_textview, llista);
 		progres = new ProgressDialog(Connexio.this);
 
 		emparellats_bttn = (Button) findViewById(R.id.emparellats);
@@ -45,7 +51,7 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.showPaired(Connexio.this, adaptat, progres);
+				myBTHelper.showPaired(adaptat, progres);
 			}
 		});
 		buscardisp_bttn.setOnClickListener(new View.OnClickListener()
@@ -53,10 +59,32 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.searchDevices(adaptat, progres);
+				myBTHelper.searchDevices(myReceiver, adaptat, progres);
 			}
 		});
+
 	}
+
+	private BroadcastReceiver myReceiver = new BroadcastReceiver()
+	{
+		public void onReceive(Context context, Intent intent)
+		{
+			String action = intent.getAction();
+			if (BluetoothDevice.ACTION_FOUND.equals(action))
+			{
+				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				myBTHelper.myArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+			}
+			else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action))
+			{
+				myBTHelper.myProgress = ProgressDialog.show(myBTHelper.myContext, "Buscant...", "Espera");
+			}
+			else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
+			{
+				myBTHelper.myProgress.dismiss();
+			}
+		}
+	};
 
 	private final AdapterView.OnItemClickListener listenerllista = new AdapterView.OnItemClickListener()
 	{
@@ -68,7 +96,7 @@ public class Connexio extends AppCompatActivity
 
 			myBTHelper.cancelDiscovery();
 			myBTHelper.setSelectedBTDevice(direccioMACBT);
-			myBTHelper.openSocket(Connexio.this);
+			myBTHelper.openSocket();
 
 			Intent i = new Intent(Connexio.this, Moviment.class);
 			startActivity(i);
@@ -79,7 +107,8 @@ public class Connexio extends AppCompatActivity
 	@Override
 	public void onDestroy()
 	{
-		super.onDestroy();
+		unregisterReceiver(myReceiver);
 		myBTHelper.onDestroy();
+		super.onDestroy();
 	}
 }
