@@ -30,6 +30,8 @@ public class Connexio extends AppCompatActivity
 		setContentView(R.layout.activity_main);
 
 		myBTHelper = new BTHelper(Connexio.this);
+		myBTHelper.checkBTEnabled();
+
 		adaptat = new ArrayAdapter<>(Connexio.this, android.R.layout.simple_list_item_1, llista);
 		progres = new ProgressDialog(Connexio.this);
 
@@ -45,7 +47,7 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.showPaired(Connexio.this, adaptat, progres);
+				myBTHelper.showPaired(adaptat, progres);
 			}
 		});
 		buscardisp_bttn.setOnClickListener(new View.OnClickListener()
@@ -56,6 +58,7 @@ public class Connexio extends AppCompatActivity
 				myBTHelper.searchDevices(adaptat, progres);
 			}
 		});
+
 	}
 
 	private final AdapterView.OnItemClickListener listenerllista = new AdapterView.OnItemClickListener()
@@ -68,7 +71,7 @@ public class Connexio extends AppCompatActivity
 
 			myBTHelper.cancelDiscovery();
 			myBTHelper.setSelectedBTDevice(direccioMACBT);
-			myBTHelper.openSocket(Connexio.this);
+			myBTHelper.openSocket();
 
 			Intent i = new Intent(Connexio.this, Moviment.class);
 			startActivity(i);

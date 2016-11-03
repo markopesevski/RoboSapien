@@ -55,6 +55,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 	private TextView estats;
 	private static boolean enviar_comandes = false;
 	private Button stop_acc;
+	private BTHelper myBTHelper = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -65,6 +66,8 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_movimentacc);
+
+		myBTHelper = new BTHelper(Movimentacc.this);
 
 		calibrar = (Button)findViewById(R.id.calibrar);
 		tornarenradere = (Button)findViewById(R.id.tornarenradere);

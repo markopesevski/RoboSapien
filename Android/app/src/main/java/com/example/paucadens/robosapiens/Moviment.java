@@ -64,7 +64,7 @@ public class Moviment extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.disconnect(Moviment.this);
+				myBTHelper.disconnect();
 				Intent i=new Intent(Moviment.this,Connexio.class);
 				startActivity(i);
 				finish();
@@ -240,87 +240,87 @@ public class Moviment extends AppCompatActivity
 
 	public void up()
 	{
-		myBTHelper.sendString(Moviment.this, "a", "Up");
+		myBTHelper.sendString("a", "Up");
 	}
 
 	public void down()
 	{
-		myBTHelper.sendString(Moviment.this, "b", "Down");
+		myBTHelper.sendString("b", "Down");
 	}
 
 	public void left()
 	{
-		myBTHelper.sendString(Moviment.this, "c", "Left");
+		myBTHelper.sendString("c", "Left");
 	}
 
 	public void right()
 	{
-		myBTHelper.sendString(Moviment.this, "d", "Right");
+		myBTHelper.sendString("d", "Right");
 	}
 
 	public void stop()
 	{
-		myBTHelper.sendString(Moviment.this, "e", "Stop");
+		myBTHelper.sendString("e", "Stop");
 	}
 
 	private void up_right()
 	{
-		myBTHelper.sendString(Moviment.this, "f", "Right Arm Up");
+		myBTHelper.sendString("f", "Right Arm Up");
 	}
 
 	private void up_left()
 	{
-		myBTHelper.sendString(Moviment.this, "g", "Left Arm Up");
+		myBTHelper.sendString("g", "Left Arm Up");
 	}
 
 	private void down_right()
 	{
-		myBTHelper.sendString(Moviment.this, "h", "Right Arm Down");
+		myBTHelper.sendString("h", "Right Arm Down");
 	}
 
 	private void down_left()
 	{
-		myBTHelper.sendString(Moviment.this, "i", "Left Arm Down");
+		myBTHelper.sendString("i", "Left Arm Down");
 	}
 
 	private void open_left_arm()
 	{
-		myBTHelper.sendString(Moviment.this, "j", "Left Arm Open");
+		myBTHelper.sendString("j", "Left Arm Open");
 	}
 
 	private void close_left_arm()
 	{
-		myBTHelper.sendString(Moviment.this, "k", "Left Arm Close");
+		myBTHelper.sendString("k", "Left Arm Close");
 	}
 
 	private void open_right_arm()
 	{
-		myBTHelper.sendString(Moviment.this, "l", "Right Arm Open");
+		myBTHelper.sendString("l", "Right Arm Open");
 	}
 
 	private void close_right_arm()
 	{
-		myBTHelper.sendString(Moviment.this, "m", "Right Arm Close");
+		myBTHelper.sendString("m", "Right Arm Close");
 	}
 
 	public void tilt_body_left()
 	{
-		myBTHelper.sendString(Moviment.this, "n", "Tilt Body Left");
+		myBTHelper.sendString("n", "Tilt Body Left");
 	}
 
 	public void tilt_body_right()
 	{
-		myBTHelper.sendString(Moviment.this, "o", "Tilt Body Right");
+		myBTHelper.sendString("o", "Tilt Body Right");
 	}
 
 	private void grip_left()
 	{
-		myBTHelper.sendString(Moviment.this, "p", "Left Grip Action");
+		myBTHelper.sendString("p", "Left Grip Action");
 	}
 
 	private void grip_right()
 	{
-		myBTHelper.sendString(Moviment.this, "q", "Right Grip Action");
+		myBTHelper.sendString("q", "Right Grip Action");
 	}
 
 	@Override

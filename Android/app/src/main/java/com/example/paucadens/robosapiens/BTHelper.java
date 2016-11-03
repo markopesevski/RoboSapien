@@ -33,7 +33,7 @@ public class BTHelper extends AppCompatActivity
 		myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (myBluetoothAdapter == null)
 		{
-			showToast(context, "No hi ha Bluetooth en aquest dispositiu");
+			showToast("No hi ha Bluetooth en aquest dispositiu");
 		}
 		else
 		{
@@ -52,7 +52,7 @@ public class BTHelper extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 	}
 
-	public void showPaired(Context context, ArrayAdapter<String> adaptadorLlista, ProgressDialog progress)
+	public void showPaired(ArrayAdapter<String> adaptadorLlista, ProgressDialog progress)
 	{
 		myArrayAdapter = adaptadorLlista;
 		myArrayAdapter.clear();
@@ -67,7 +67,7 @@ public class BTHelper extends AppCompatActivity
 		}
 		else
 		{
-			showToast(context, "No hi ha dispositius emparellats");
+			showToast("No hi ha dispositius emparellats");
 		}
 	}
 
@@ -117,27 +117,32 @@ public class BTHelper extends AppCompatActivity
 		isDeviceSelected = true;
 	}
 
-	public void openSocket(Context context)
+	public void openSocket()
 	{
 		if(isDeviceSelected)
 		{
-			new connectToSocket().execute(context);
+			new connectToSocket().execute();
 		}
 		else
 		{
-			showToast(context, "Device not selected!");
+			showToast("Device not selected!");
 		}
 	}
 
-	private class connectToSocket extends AsyncTask<Context, Void, Void>
+	private class connectToSocket extends AsyncTask<Void, Void, Void>
 	{
 		private final UUID UUIDserie = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 		@Override
-		protected Void doInBackground(Context... context)
+		protected void onPreExecute()
+		{
+			myProgress = ProgressDialog.show(myContext, "Connectant...", "Espera");
+		}
+
+		@Override
+		protected Void doInBackground(Void... params)
 		{
 			// TODO veure perque no s'espera fins que s'ha connectat per amagar el ProgressDialog
-			myShowDialog(context[0], "Connectant...", "Espera");
 			try
 			{
 				if (myBluetoothSocket == null || !isConnected)
@@ -156,17 +161,18 @@ public class BTHelper extends AppCompatActivity
 
 		@Override
 		protected void onPostExecute(Void params) {
-			while(!isConnected)
-			{
-			}
 			if(isConnected)
 			{
-				dismissDialog();
+				myProgress.dismiss();
+			}
+			else
+			{
+				showToast("Error al connectar!");
 			}
 		}
 	}
 
-	public void sendString(Context context, String str, String errMsg)
+	public void sendString(String str, String errMsg)
 	{
 		if (myBluetoothSocket != null && isConnected)
 		{
@@ -176,12 +182,12 @@ public class BTHelper extends AppCompatActivity
 			}
 			catch (IOException e)
 			{
-				showToast(context, "Error sending: " + errMsg);
+				showToast("Error sending: " + errMsg);
 			}
 		}
 	}
 
-	public void disconnect(Context context)
+	public void disconnect()
 	{
 		try
 		{
@@ -190,19 +196,18 @@ public class BTHelper extends AppCompatActivity
 			isConnected = false;
 			myBluetoothDevice = null;
 			isDeviceSelected = false;
-			showToast(context, "Disconnected");
+			showToast("Disconnected");
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			showToast(context, "Error closing socket!");
+			showToast("Error closing socket!");
 		}
 	}
 
-	private void showToast(Context context, String msg)
+	private void showToast(String msg)
 	{
 		final String str = msg;
-		final Context where = context;
 		runOnUiThread(new Runnable()
 		{
 			@Override
@@ -210,7 +215,7 @@ public class BTHelper extends AppCompatActivity
 			{
 				try
 				{
-					Toast.makeText(where, str, Toast.LENGTH_LONG).show();
+					Toast.makeText(myContext, str, Toast.LENGTH_LONG).show();
 				}
 				catch (Exception e)
 				{
@@ -220,9 +225,8 @@ public class BTHelper extends AppCompatActivity
 		});
 	}
 
-	private void myShowDialog(Context context, String title, String msg)
+	private void myShowDialog(String title, String msg)
 	{
-		final Context where = context;
 		final String tit = title;
 		final String str = msg;
 		runOnUiThread(new Runnable()
@@ -232,7 +236,7 @@ public class BTHelper extends AppCompatActivity
 			{
 				try
 				{
-					myProgress = ProgressDialog.show(where, tit, str);
+					myProgress = ProgressDialog.show(myContext, tit, str);
 				}
 				catch (Exception e)
 				{
