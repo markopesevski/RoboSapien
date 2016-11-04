@@ -14,6 +14,7 @@ import android.widget.Spinner;
 public class Moviment extends AppCompatActivity
 {
 	private static BTHelper myBTHelper;
+	private static ArrayAdapter<CharSequence> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +39,6 @@ public class Moviment extends AppCompatActivity
 		ImageView cararobot;
 		Button desconnectar;
 		Spinner spinnerBalls;
-		ArrayAdapter<CharSequence> adapter;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
@@ -344,12 +344,12 @@ public class Moviment extends AppCompatActivity
 
 	private void ball_2()
 	{
-		myBTHelper.sendString("1", "Ball 2");
+		myBTHelper.sendString("2", "Ball 2");
 	}
 
 	private void ball_3()
 	{
-		myBTHelper.sendString("1", "Ball 3");
+		myBTHelper.sendString("3", "Ball 3");
 	}
 
 	public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener
@@ -357,15 +357,15 @@ public class Moviment extends AppCompatActivity
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
 		{
 			// An item was selected. You can retrieve the selected item using
-			if(parent.getItemAtPosition(pos) == R.array.Balls_array[0])
+			if(pos == 0)
 			{
 				ball_1();
 			}
-			else if(parent.getItemAtPosition(pos) == R.array.Balls_array[1])
+			else if(pos == 1)
 			{
 				ball_2();
 			}
-			else if(parent.getItemAtPosition(pos) == R.array.Balls_array[2])
+			else if(pos == 2)
 			{
 				ball_3();
 			}
