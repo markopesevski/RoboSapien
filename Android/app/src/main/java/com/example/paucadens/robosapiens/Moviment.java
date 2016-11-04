@@ -1,11 +1,15 @@
 package com.example.paucadens.robosapiens;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 public class Moviment extends AppCompatActivity
 {
@@ -33,6 +37,8 @@ public class Moviment extends AppCompatActivity
 		Button gripRight;
 		ImageView cararobot;
 		Button desconnectar;
+		Spinner spinnerBalls;
+		ArrayAdapter<CharSequence> adapter;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
@@ -58,6 +64,14 @@ public class Moviment extends AppCompatActivity
 		tiltBodyRight = (Button) findViewById(R.id.tiltBodyRight);
 		gripLeft = (Button) findViewById(R.id.gripLeft);
 		gripRight = (Button) findViewById(R.id.gripRight);
+		spinnerBalls = (Spinner) findViewById(R.id.spinner);
+
+		adapter = ArrayAdapter.createFromResource(
+				this,
+				R.array.Balls_array,
+				android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerBalls.setAdapter(adapter);
 
 		desconnectar.setOnClickListener(new View.OnClickListener()
 		{
@@ -321,6 +335,46 @@ public class Moviment extends AppCompatActivity
 	private void grip_right()
 	{
 		myBTHelper.sendString("q", "Right Grip Action");
+	}
+
+	private void ball_1()
+	{
+		myBTHelper.sendString("1", "Ball 1");
+	}
+
+	private void ball_2()
+	{
+		myBTHelper.sendString("1", "Ball 2");
+	}
+
+	private void ball_3()
+	{
+		myBTHelper.sendString("1", "Ball 3");
+	}
+
+	public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener
+	{
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+		{
+			// An item was selected. You can retrieve the selected item using
+			if(parent.getItemAtPosition(pos) == R.array.Balls_array[0])
+			{
+				ball_1();
+			}
+			else if(parent.getItemAtPosition(pos) == R.array.Balls_array[1])
+			{
+				ball_2();
+			}
+			else if(parent.getItemAtPosition(pos) == R.array.Balls_array[2])
+			{
+				ball_3();
+			}
+		}
+
+		public void onNothingSelected(AdapterView<?> parent)
+		{
+			// Another interface callback
+		}
 	}
 
 	@Override
