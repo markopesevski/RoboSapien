@@ -4,5 +4,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-    
+
+    <ImageView
+        android:layout_width="1200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/splash_screen"
+        android:layout_weight="0.88" />
 </LinearLayout>
