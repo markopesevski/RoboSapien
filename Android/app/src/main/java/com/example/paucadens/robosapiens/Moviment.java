@@ -344,12 +344,12 @@ public class Moviment extends AppCompatActivity
 
 	private void ball_2()
 	{
-		myBTHelper.sendString("1", "Ball 2");
+		myBTHelper.sendString("2", "Ball 2");
 	}
 
 	private void ball_3()
 	{
-		myBTHelper.sendString("1", "Ball 3");
+		myBTHelper.sendString("3", "Ball 3");
 	}
 
 	public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener
