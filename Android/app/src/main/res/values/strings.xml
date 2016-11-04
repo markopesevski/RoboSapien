@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">RoboSapiens</string>
+    <string name="connectar_bluetooth_text">Connectar Bluetooth</string>
+    <string name="emparellats_text">Emparellats</string>
+    <string name="buscar_dispositius_text">Buscar dispositius</string>
+    <string name="arm_up_text">Arm Up</string>
+    <string name="arm_down_text">Arm Down</string>
+    <string name="grip_text">Grip</string>
+    <string name="arm_out_text">Arm Out</string>
+    <string name="arm_in_text">Arm In</string>
+    <string name="desconnectar_text">Desconnectar</string>
+    <string name="tilt_body_text">Tilt Body</string>
+    <string name="calibrar_text">Calibrar</string>
+    <string name="estat_text">Estat: </string>
+    <string name="stop_acc_text">Stop</string>
+    <string name="start_acc_text">Start</string>
 </resources>

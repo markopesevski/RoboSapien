@@ -1,232 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TODO fer mes bonic -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
-    xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activity_main"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="16dp"
-android:paddingLeft="10dp"
-android:paddingRight="10dp"
-android:paddingTop="@dimen/activity_vertical_margin"
-tools:context="com.example.paucadens.robosapiens.Moviment"
-   >
-
-    <GridLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-        android:id="@+id/gridLayout">
-
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/armUpLeft"
-            android:layout_column="1"
-            android:layout_row="1"
-            android:text="Arm Up"
-            android:textSize="15sp" />
-
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/armUpRight"
-            android:layout_column="3"
-            android:layout_row="1"
-            android:text="Arm Up"
-            android:textSize="15sp" />
-
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/armDownRight"
-            android:layout_column="3"
-            android:layout_row="3"
-            android:text="Arm Down"
-            android:textSize="14sp"
-            />
-
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/armDownLeft"
-            android:layout_column="1"
-            android:layout_row="3"
-            android:text="Arm Down"
-            android:textSize="14sp"
-            />
-
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/gripRight"
-            android:layout_column="4"
-            android:layout_row="2"
-            android:text="Grip"
-            android:textSize="15sp"
-            />
-
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/armOutLeft"
-            android:layout_column="0"
-            android:layout_row="1"
-            android:text="Arm Out"
-            android:textSize="15sp"
-            />
-
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:id="@+id/up"
-            android:layout_column="2"
-            android:layout_row="1"
-            android:background="@drawable/fletxa"
-            android:rotation="180"/>
-
-    <ImageView
-
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/stop"
-        android:layout_column="2"
-        android:layout_row="2"
-        android:src="@drawable/cercle"
-        tools:ignore="ContentDescription" />
-
-    <Button
-
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/down"
-        android:layout_column="2"
-        android:layout_row="3"
-        android:background="@drawable/fletxa"/>
-
-    <Button
-
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/left"
-        android:layout_column="1"
-        android:layout_row="2"
-        android:background="@drawable/fletxa"
-        android:rotation="90"/>
-
-    <Button
-
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/right"
-        android:layout_column="3"
-        android:layout_row="2"
-        android:background="@drawable/fletxa"
-        android:rotation="-90"/>
-
-    <Button
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/armOutRight"
-        android:layout_column="4"
-        android:layout_row="1"
-        android:text="Arm Out"
-        android:textSize="15sp" />
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingBottom="16dp"
+	android:paddingLeft="10dp"
+	android:paddingRight="10dp"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	tools:context="com.example.paucadens.robosapiens.Moviment"
+	android:background="@color/colorBlack">
 
 
-    <Button
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/armInRight"
-        android:layout_column="4"
-        android:layout_row="3"
-        android:text="Arm In"
-        android:textSize="15sp" />
+	<Button
+		android:text="Close LA"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tiltBodyLeft"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		android:textSize="15sp">
+	</Button>
+
+	<Button
+		android:text="Close RA"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tiltBodyRight"
+		android:layout_alignLeft="@+id/tiltBodyRight"
+		android:layout_alignStart="@+id/tiltBodyRight"
+		android:textSize="15sp"
+		android:id="@+id/button">
+	</Button>
+
+	<Button
+		android:text="@string/tilt_body_text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/tiltBodyLeft"
+		android:layout_below="@+id/gridLayout"
+		android:layout_alignParentLeft="true">
+	</Button>
+
+	<Button
+		android:text="@string/tilt_body_text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/tiltBodyRight"
+		android:layout_below="@+id/gridLayout"
+		android:layout_alignParentRight="true">
+	</Button>
+
+	<ImageView
+		android:layout_width="150dp"
+		android:layout_height="150dp"
+		android:src="@mipmap/maxresdefault"
+		android:id="@+id/cararobot"
+		tools:ignore="ContentDescription"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true">
+</ImageView>
+
+	<GridLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/gridLayout"
+		android:layout_below="@+id/desconnectar"
+		android:layout_centerHorizontal="true">
+
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armDownLeft"
+			android:layout_column="1"
+			android:layout_row="3"
+			android:text="@string/arm_down_text"
+			android:textSize="14sp">
+		</Button>
+
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/gripRight"
+			android:layout_column="4"
+			android:layout_row="2"
+			android:text="@string/grip_text"
+			android:textSize="15sp">
+		</Button>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="125dp"
+			android:id="@+id/up"
+			android:layout_column="2"
+			android:layout_row="1"
+
+			android:background="@drawable/fletxa"
+			android:rotation="180">
+		</Button>
+
+		<ImageView
+			android:layout_width="125dp"
+			android:layout_height="125dp"
+			android:id="@+id/stop"
+			android:layout_column="2"
+			android:layout_row="2"
+
+			android:src="@drawable/cercle_vermell"
+			tools:ignore="ContentDescription">
+		</ImageView>
+
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armOutRight"
+			android:layout_column="4"
+			android:layout_row="1"
+			android:text="@string/arm_out_text"
+			android:textSize="15sp">
+		</Button>
 
 
-    <Button
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/armInLeft"
-        android:layout_column="0"
-        android:layout_row="3"
-        android:text="Arm In"
-        android:textSize="15sp" />
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armInRight"
+			android:layout_column="4"
+			android:layout_row="3"
+			android:text="@string/arm_in_text"
+			android:textSize="15sp">
+		</Button>
 
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/gripLeft"
-            android:layout_column="0"
-            android:layout_row="2"
-            android:text="Grip"
-            android:textSize="15sp" />
-    </GridLayout>
 
-    <Button
-        android:text="Desconnectar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/desconnectar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armInLeft"
+			android:layout_column="0"
+			android:layout_row="3"
+			android:text="@string/arm_in_text"
+			android:textSize="15sp">
+		</Button>
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/maxresdefault"
-        android:id="@+id/cararobot"
-        android:layout_above="@+id/desconnectar"
-        android:layout_centerHorizontal="true"
-        tools:ignore="ContentDescription" />
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/gripLeft"
+			android:layout_column="0"
+			android:layout_row="2"
+			android:text="@string/grip_text"
+			android:textSize="15sp">
+		</Button>
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button11"
-        android:layout_below="@+id/gridLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp" />
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armDownRight"
+			android:layout_column="3"
+			android:layout_row="3"
+			android:text="@string/arm_down_text"
+			android:layout_marginLeft="28dp"
+			android:textSize="14sp">
+		</Button>
 
-    <Button
-        android:text="Tilt Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tiltBodyLeft"
-        android:layout_alignBaseline="@+id/button11"
-        android:layout_alignBottom="@+id/button11"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+		<Button
+			android:layout_width="125dp"
+			android:layout_height="125dp"
+			android:id="@+id/down"
+			android:layout_column="2"
+			android:layout_row="3"
 
-    <Button
-        android:text="Close LA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tiltBodyLeft"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button13"
-        android:textSize="15sp" />
+			android:layout_centerHorizontal="true"
+			android:background="@drawable/fletxa">
+		</Button>
 
-    <Button
-        android:text="Close RA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tiltBodyRight"
-        android:layout_alignLeft="@+id/tiltBodyRight"
-        android:layout_alignStart="@+id/tiltBodyRight"
-        android:id="@+id/button14"
-        android:textSize="15sp" />
+		<Button
+			android:layout_width="125dp"
+			android:layout_height="125dp"
+			android:id="@+id/left"
+			android:layout_column="1"
+			android:layout_row="2"
+			android:background="@drawable/fletxa"
+			android:rotation="90">
+		</Button>
 
-    <Button
-        android:text="Tilt Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tiltBodyRight"
-        android:layout_alignBaseline="@+id/button11"
-        android:layout_alignBottom="@+id/button11"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="125dp"
+			android:id="@+id/right"
+			android:layout_column="3"
+			android:layout_row="2"
 
+			android:background="@drawable/fletxa"
+			android:rotation="-90">
+		</Button>
+
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armOutLeft"
+			android:layout_column="0"
+			android:layout_row="1"
+			android:text="@string/arm_out_text"
+			android:textSize="15sp">
+		</Button>
+
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armUpLeft"
+			android:layout_column="1"
+			android:layout_row="1"
+			android:text="@string/arm_up_text"
+			android:textSize="15sp">
+		</Button>
+
+		<Button
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:id="@+id/armUpRight"
+			android:layout_column="3"
+			android:layout_row="1"
+			android:text="@string/arm_up_text"
+			android:textSize="15sp"
+			android:layout_marginLeft="28dp">
+		</Button>
+
+	</GridLayout>
+
+	<Button
+
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		android:id="@+id/desconnectar"
+		android:background="@android:drawable/ic_delete"
+		android:layout_alignParentTop="true"
+		android:layout_alignRight="@+id/button">
+	</Button>
 
 </RelativeLayout>
