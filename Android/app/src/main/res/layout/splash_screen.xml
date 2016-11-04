@@ -7,8 +7,8 @@
     android:background="#BDBDBD">
 
     <ImageView
-        android:layout_width="988dp"
-        android:layout_height="448dp"
+        android:layout_width="1273dp"
+        android:layout_height="545dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@mipmap/splash_screen" />
@@ -16,12 +16,11 @@
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:maxLines="4"
-        android:lines="4"
         android:textAlignment="center"
         android:text="App creada per:\n Marko Peshevski\ni\n Pau Cadens "
         android:layout_gravity="center_horizontal"
         android:textColor="#000000"
+        android:textSize="15dp"
         android:id="@+id/textView2"
         android:layout_marginTop="20dp"/>
 </LinearLayout>
