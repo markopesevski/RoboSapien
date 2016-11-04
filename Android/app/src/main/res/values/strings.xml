@@ -14,4 +14,9 @@
     <string name="estat_text">Estat: </string>
     <string name="stop_acc_text">Stop</string>
     <string name="start_acc_text">Start</string>
+    <string-array name="Balls_array">
+        <item> Ball 1 </item>
+        <item> Ball 2 </item>
+        <item> Ball 3 </item>
+    </string-array>
 </resources>
