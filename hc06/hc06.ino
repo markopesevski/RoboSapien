@@ -244,17 +244,20 @@ void ball_1(void)
 		delay(100);
 	}
 
+	writeCommand(stopMoving);
 	atendreComandes = 1;
 }
 
 void ball_2(void)
 {
+	writeCommand(stopMoving);
 	atendreComandes = 1;
 }
 
 
 void ball_3(void)
 {
+	writeCommand(stopMoving);
 	atendreComandes = 1;
 }
 
