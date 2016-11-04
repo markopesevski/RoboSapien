@@ -11,7 +11,7 @@ public class Splash_Screen extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         Intent mainIntent = new Intent(this, Connexio.class);
-        Splash_Screen.this.startActivity(mainIntent);
-        Splash_Screen.this.finish();
+        startActivity(mainIntent);
+        finish();
     }
 }
