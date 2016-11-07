@@ -4,7 +4,8 @@
     <item
         android:drawable="#BDBDBD"/>
 
-    <item>
+    <item
+        android:gravity="center">
         <bitmap
             android:gravity="center"
             android:src="@mipmap/splash_screen"/>
