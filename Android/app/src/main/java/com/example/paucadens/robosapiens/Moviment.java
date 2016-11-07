@@ -5,16 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class Moviment extends AppCompatActivity
 {
 	private static BTHelper myBTHelper;
-	private static ArrayAdapter<CharSequence> adapter;
+	private static ArrayAdapter<String> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,11 +41,13 @@ public class Moviment extends AppCompatActivity
 		ImageView cararobot;
 		Button desconnectar;
 		Spinner spinnerBalls;
+		SpinnerActivity gestorBalls;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
 
 		myBTHelper = new BTHelper(Moviment.this);
+		gestorBalls = new SpinnerActivity();
 
 		up = (Button) findViewById(R.id.up);
 		down = (Button) findViewById(R.id.down);
@@ -66,12 +70,47 @@ public class Moviment extends AppCompatActivity
 		gripRight = (Button) findViewById(R.id.gripRight);
 		spinnerBalls = (Spinner) findViewById(R.id.spinner);
 
-		adapter = ArrayAdapter.createFromResource(
-				this,
-				R.array.Balls_array,
-				android.R.layout.simple_spinner_item);
+		//adapter = ArrayAdapter.createFromResource(
+		//		this,
+		//		R.array.Balls_array,
+		//		android.R.layout.simple_spinner_item);
+		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		//spinnerBalls.setAdapter(adapter);
+
+
+		adapter = new ArrayAdapter<String>(Moviment.this, android.R.layout.simple_spinner_dropdown_item)
+		{
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent)
+			{
+				View v = super.getView(position, convertView, parent);
+				if (position == getCount())
+				{
+					((TextView)v.findViewById(android.R.id.text1)).setText("");
+					((TextView)v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
+				}
+
+				return v;
+			}
+
+			@Override
+			public int getCount()
+			{
+				return super.getCount()-1; // you dont display last item. It is used as hint.
+			}
+		};
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerBalls.setAdapter(adapter);
+
+
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.add("Ball 1");
+		adapter.add("Ball 2");
+		adapter.add("Ball 3");
+		adapter.add("Balls"); //This is the text that will be displayed as hint.
+		spinnerBalls.setAdapter(adapter);
+		spinnerBalls.setSelection(adapter.getCount()); //set the hint the default selection so it appears on launch.
+		spinnerBalls.setOnItemSelectedListener(gestorBalls);
 
 		desconnectar.setOnClickListener(new View.OnClickListener()
 		{
@@ -352,7 +391,7 @@ public class Moviment extends AppCompatActivity
 		myBTHelper.sendString("3", "Ball 3");
 	}
 
-	public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener
+	private class SpinnerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener
 	{
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
 		{
