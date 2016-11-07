@@ -31,7 +31,8 @@
         android:textSize="30dp"
         android:layout_marginTop="32dp"
         android:layout_below="@+id/calibrar"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        style="@style/button_text">
     </Button>
 
     <Button
