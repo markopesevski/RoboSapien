@@ -118,7 +118,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 			myMoviment.stop();
 			stop_acc.setText(R.string.start_acc_text);
 			stop_acc.setTextColor(0x000000);
-			stop_acc.setBackgroundResource(R.drawable.cercle_verd);
+			stop_acc.setBackgroundResource(R.drawable.button_green);
 			estats.setText(estats_text[7]);
 		}
 		else
@@ -126,7 +126,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 			enviar_comandes = true;
 			stop_acc.setText(R.string.stop_acc_text);
 			stop_acc.setTextColor(0xFFFFFF);
-			stop_acc.setBackgroundResource(R.drawable.cercle_vermell);
+			stop_acc.setBackgroundResource(R.drawable.button_red);
 		}
 	}
 
