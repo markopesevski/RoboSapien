@@ -54,7 +54,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 	private static int estats_index = 6;
 	private TextView estats;
 	private static boolean enviar_comandes = false;
-	private Button stop_acc;
+	private static Button stop_acc;
 	private BTHelper myBTHelper = null;
 
 	@Override
@@ -72,7 +72,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		calibrar = (Button)findViewById(R.id.calibrar);
 		tornarenradere = (Button)findViewById(R.id.tornarenradere);
 		estats = (TextView) findViewById(R.id.estats);
-		stop_acc = (Button)findViewById(R.id.stop_acc);
+		stop_acc = (Button) findViewById(R.id.stop_acc);
 
 		sensors = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensors.registerListener(this, sensors.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_UI);
@@ -136,9 +136,12 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 	@Override
 	public void onSensorChanged(SensorEvent arg0)
 	{
-		if (arg0.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+		if (arg0.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+		{
 			System.arraycopy(arg0.values, 0, lecturaAccelerometre, 0, lecturaAccelerometre.length);
-		} else if (arg0.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+		}
+		else if (arg0.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+		{
 			System.arraycopy(arg0.values, 0, lecturaMagnetometre, 0, lecturaMagnetometre.length);
 		}
 
