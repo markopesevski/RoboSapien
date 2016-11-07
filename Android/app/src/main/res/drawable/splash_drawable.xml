@@ -4,10 +4,8 @@
     <item
         android:drawable="@color/colorbackground"/>
 
-    <item
-        android:gravity="center">
+    <item>
         <bitmap
-            android:gravity="center"
             android:src="@mipmap/splash_screen"/>
     </item>
 
