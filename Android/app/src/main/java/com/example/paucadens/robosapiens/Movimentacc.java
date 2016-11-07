@@ -158,7 +158,6 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 			cx = angles[1];
 			cy = angles[2];
 			mesurar = false;
-			enviar_comandes = true;
 		}
 
 		angles[0] = angles[0] - cz;

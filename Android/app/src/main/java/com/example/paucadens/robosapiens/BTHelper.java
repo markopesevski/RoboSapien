@@ -23,7 +23,7 @@ public class BTHelper extends AppCompatActivity
 	private static BluetoothDevice myBluetoothDevice = null;
 	private static BluetoothSocket myBluetoothSocket = null;
 	private static boolean isDeviceSelected = false;
-	private static boolean isConnected = false;
+	private static boolean isConnected;
 	public static Intent myActivateBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 	public ArrayAdapter<String> myArrayAdapter = null;
 	public ProgressDialog myProgress = null;
@@ -34,7 +34,6 @@ public class BTHelper extends AppCompatActivity
 		myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		myContext = context;
 		isDeviceSelected = false;
-		isConnected = false;
 	}
 
 	public void checkBTEnabled()

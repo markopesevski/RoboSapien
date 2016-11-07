@@ -16,7 +16,7 @@ public class Moviment extends AppCompatActivity
 {
 	private static BTHelper myBTHelper;
 
-	public void Moviment()
+	public Moviment()
 	{
 		myBTHelper = new BTHelper(Moviment.this);
 	}
