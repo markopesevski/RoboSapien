@@ -42,14 +42,14 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 	private final Moviment myMoviment = new Moviment();
 	private static final String[] estats_text =
 	{
-		"Status: Forwards",
-		"Status: Backwards",
-		"Status: Moving Left",
-		"Status: Moving Right",
-		"Status: Tilting Right",
-		"Status: Tilting Left",
-		"Status: Stopped",
-		"Status: Not Sending Commands"
+		"Estat: Endavant",
+		"Estat: Endarrere",
+		"Estat: Esquerra",
+		"Estat: Dreta",
+		"Estat: Inclinant dreta",
+		"Estat: Inclinant esquerra",
+		"Estat: Parat",
+		"Estat: No s'envien comandes"
 	};
 	private static int estats_index = 6;
 	private TextView estats;
