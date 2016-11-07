@@ -39,7 +39,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		endarrere
 	}
 	private static t_moviments estat = parat;
-	private final Moviment myMoviment = new Moviment();
+	private static Moviment myMoviment;
 	private static final String[] estats_text =
 	{
 		"Estat: Endavant",
@@ -68,6 +68,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		setContentView(R.layout.activity_movimentacc);
 
 		myBTHelper = new BTHelper(Movimentacc.this);
+		myMoviment = new Moviment();
 
 		calibrar = (Button)findViewById(R.id.calibrar);
 		tornarenradere = (Button)findViewById(R.id.tornarenradere);

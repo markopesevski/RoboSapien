@@ -16,6 +16,11 @@ public class Moviment extends AppCompatActivity
 {
 	private static BTHelper myBTHelper;
 
+	public void Moviment()
+	{
+		myBTHelper = new BTHelper(Moviment.this);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -45,7 +50,6 @@ public class Moviment extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
 
-		myBTHelper = new BTHelper(Moviment.this);
 		gestorBalls = new SpinnerActivity();
 
 		up = (Button) findViewById(R.id.up);
