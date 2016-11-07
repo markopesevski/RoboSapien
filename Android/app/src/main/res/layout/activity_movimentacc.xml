@@ -26,7 +26,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/stop_acc"
-        android:background="@drawable/cercle_verd"
+        android:background="@drawable/button_green"
         android:textColor="@color/colorWhite"
         android:textSize="30dp"
         android:layout_marginTop="32dp"
