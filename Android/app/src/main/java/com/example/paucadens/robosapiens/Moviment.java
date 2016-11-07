@@ -1,6 +1,5 @@
 package com.example.paucadens.robosapiens;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 public class Moviment extends AppCompatActivity
 {
 	private static BTHelper myBTHelper;
-	private static ArrayAdapter<String> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -42,6 +40,7 @@ public class Moviment extends AppCompatActivity
 		Button desconnectar;
 		Spinner spinnerBalls;
 		SpinnerActivity gestorBalls;
+		ArrayAdapter<String> adapter;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
@@ -69,14 +68,6 @@ public class Moviment extends AppCompatActivity
 		gripLeft = (Button) findViewById(R.id.gripLeft);
 		gripRight = (Button) findViewById(R.id.gripRight);
 		spinnerBalls = (Spinner) findViewById(R.id.spinner);
-
-		//adapter = ArrayAdapter.createFromResource(
-		//		this,
-		//		R.array.Balls_array,
-		//		android.R.layout.simple_spinner_item);
-		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		//spinnerBalls.setAdapter(adapter);
-
 
 		adapter = new ArrayAdapter<String>(Moviment.this, android.R.layout.simple_spinner_dropdown_item)
 		{

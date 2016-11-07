@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,6 +24,7 @@ public class Connexio extends AppCompatActivity
 	private final ArrayList<String> llista = new ArrayList<>();
 	private ArrayAdapter<String> adaptat;
 	private ProgressDialog progres;
+	public static BroadcastReceiver receiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +53,7 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.showPaired(adaptat, progres);
+				myBTHelper.showPaired(adaptat, progres, myReceiver);
 			}
 		});
 		buscardisp_bttn.setOnClickListener(new View.OnClickListener()
@@ -59,10 +61,16 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.searchDevices(myReceiver, adaptat, progres);
+				IntentFilter myFilter = new IntentFilter();
+
+				myFilter.addAction(BluetoothDevice.ACTION_FOUND);
+				myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+				myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+				registerReceiver(receiver, myFilter);
+
+				myBTHelper.startSearching(myReceiver, adaptat, progres);
 			}
 		});
-
 	}
 
 	private BroadcastReceiver myReceiver = new BroadcastReceiver()
@@ -73,15 +81,15 @@ public class Connexio extends AppCompatActivity
 			if (BluetoothDevice.ACTION_FOUND.equals(action))
 			{
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				myBTHelper.myArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+				adaptat.add(device.getName() + "\n" + device.getAddress());
 			}
 			else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action))
 			{
-				myBTHelper.myProgress = ProgressDialog.show(myBTHelper.myContext, "Buscant...", "Espera");
+				progres = ProgressDialog.show(Connexio.this, "Buscant...", "Espera");
 			}
 			else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
 			{
-				myBTHelper.myProgress.dismiss();
+				progres.dismiss();
 			}
 		}
 	};

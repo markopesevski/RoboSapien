@@ -58,7 +58,7 @@ public class BTHelper extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 	}
 
-	public void showPaired(ArrayAdapter<String> adaptadorLlista, ProgressDialog progress)
+	public void showPaired(ArrayAdapter<String> adaptadorLlista, ProgressDialog progress, BroadcastReceiver receiver)
 	{
 		myArrayAdapter = adaptadorLlista;
 		myArrayAdapter.clear();
@@ -83,16 +83,8 @@ public class BTHelper extends AppCompatActivity
 	}
 
 	// TODO perque peta aqui
-	public void searchDevices(BroadcastReceiver receiver, ArrayAdapter<String> listAdapter, ProgressDialog progress)
-	{
-		myArrayAdapter = listAdapter;
-		myProgress = progress;
-
-		IntentFilter myFilter = new IntentFilter();
-		myFilter.addAction(BluetoothDevice.ACTION_FOUND);
-		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-		myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		registerReceiver(receiver, myFilter);
+	public void startSearching(BroadcastReceiver receiver, ArrayAdapter<String> listAdapter, ProgressDialog progress)
+	{		
 		myBluetoothAdapter.startDiscovery();
 	}
 
