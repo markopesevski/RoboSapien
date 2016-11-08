@@ -54,7 +54,7 @@ public class BTHelper extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 	}
 
-	public void showPaired(ArrayAdapter<String> adaptadorLlista, ProgressDialog progress, BroadcastReceiver receiver)
+	public void showPaired(ArrayAdapter<String> adaptadorLlista, ProgressDialog progress)
 	{
 		myArrayAdapter = adaptadorLlista;
 		myArrayAdapter.clear();
@@ -78,8 +78,7 @@ public class BTHelper extends AppCompatActivity
 		myBluetoothAdapter.cancelDiscovery();
 	}
 
-	// TODO perque peta aqui
-	public void startSearching(BroadcastReceiver receiver, ArrayAdapter<String> listAdapter, ProgressDialog progress)
+	public void startSearching()
 	{		
 		myBluetoothAdapter.startDiscovery();
 	}
@@ -115,7 +114,6 @@ public class BTHelper extends AppCompatActivity
 		@Override
 		protected Void doInBackground(Void... params)
 		{
-			// TODO veure perque no s'espera fins que s'ha connectat per amagar el ProgressDialog
 			try
 			{
 				if (myBluetoothSocket == null || !isConnected)
@@ -207,58 +205,11 @@ public class BTHelper extends AppCompatActivity
 		});
 	}
 
-	private void myShowDialog(String title, String msg)
-	{
-		final String tit = title;
-		final String str = msg;
-		runOnUiThread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					myProgress = ProgressDialog.show(myContext, tit, str);
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	private void dismissDialog()
-	{
-		runOnUiThread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					myProgress.dismiss();
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	@Override
 	public void onDestroy()
 	{
+		disconnect();
 		super.onDestroy();
-		try
-		{
-			myBluetoothSocket.close();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
 	}
 }
 

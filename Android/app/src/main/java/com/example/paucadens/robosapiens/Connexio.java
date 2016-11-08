@@ -20,11 +20,10 @@ import java.util.ArrayList;
 
 public class Connexio extends AppCompatActivity
 {
-	private static BTHelper myBTHelper;
+	private BTHelper myBTHelper;
 	private final ArrayList<String> llista = new ArrayList<>();
 	private ArrayAdapter<String> adaptat;
 	private ProgressDialog progres;
-	public static BroadcastReceiver receiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +37,7 @@ public class Connexio extends AppCompatActivity
 		myBTHelper = new BTHelper(Connexio.this);
 		myBTHelper.checkBTEnabled();
 
-		adaptat = new ArrayAdapter<String>(Connexio.this, R.layout.custom_textview, llista);
+		adaptat = new ArrayAdapter<>(Connexio.this, R.layout.custom_textview, llista);
 		progres = new ProgressDialog(Connexio.this);
 
 		emparellats_bttn = (Button) findViewById(R.id.emparellats);
@@ -53,7 +52,7 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				myBTHelper.showPaired(adaptat, progres, myReceiver);
+				myBTHelper.showPaired(adaptat, progres);
 			}
 		});
 		buscardisp_bttn.setOnClickListener(new View.OnClickListener()
@@ -61,14 +60,16 @@ public class Connexio extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
+				adaptat.clear();
+
 				IntentFilter myFilter = new IntentFilter();
 
 				myFilter.addAction(BluetoothDevice.ACTION_FOUND);
 				myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
 				myFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-				registerReceiver(receiver, myFilter);
+				registerReceiver(myReceiver, myFilter);
 
-				myBTHelper.startSearching(myReceiver, adaptat, progres);
+				myBTHelper.startSearching();
 			}
 		});
 	}
@@ -108,7 +109,6 @@ public class Connexio extends AppCompatActivity
 
 			Intent i = new Intent(Connexio.this, Moviment.class);
 			startActivity(i);
-			//finish();
 		}
 	};
 

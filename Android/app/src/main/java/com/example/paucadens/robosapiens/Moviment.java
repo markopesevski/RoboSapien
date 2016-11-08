@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class Moviment extends AppCompatActivity
 {
-	private static BTHelper myBTHelper;
+	private BTHelper myBTHelper;
 
 	public Moviment()
 	{
@@ -278,7 +278,6 @@ public class Moviment extends AppCompatActivity
 			{
 				Intent i=new Intent(Moviment.this,Movimentacc.class);
 				startActivity(i);
-				finish();
 			}
 		});
 	}
@@ -411,6 +410,7 @@ public class Moviment extends AppCompatActivity
 	@Override
 	public void onDestroy()
 	{
+		myBTHelper.disconnect();
 		super.onDestroy();
 	}
 }

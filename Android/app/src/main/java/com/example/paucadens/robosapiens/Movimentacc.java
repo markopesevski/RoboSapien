@@ -54,7 +54,7 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 	private static int estats_index = 6;
 	private TextView estats;
 	private static boolean enviar_comandes = false;
-	private static Button stop_acc;
+	private Button stop_acc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -109,7 +109,6 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 
 	private void stop()
 	{
-		// TODO revisar si els colors son correctes o que
 		if(enviar_comandes)
 		{
 			enviar_comandes = false;
