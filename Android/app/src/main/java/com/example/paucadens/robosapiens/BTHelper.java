@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 public class BTHelper extends AppCompatActivity
@@ -22,15 +24,28 @@ public class BTHelper extends AppCompatActivity
 	private static BluetoothSocket myBluetoothSocket = null;
 	private static boolean isDeviceSelected = false;
 	private static boolean isConnected;
-	public ArrayAdapter<String> myArrayAdapter = null;
-	public ProgressDialog myProgress = null;
-	public Context myContext = null;
+	private ProgressDialog myProgress = null;
+	private Context myContext = null;
+	private static final BroadcastReceiver myReceiver = null;
+
+	public BTHelper()
+	{
+		myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		checkBTEnabled();
+	}
 
 	public BTHelper(Context context)
 	{
 		myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		checkBTEnabled();
 		myContext = context;
 		isDeviceSelected = false;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
 	}
 
 	public void checkBTEnabled()
@@ -48,16 +63,14 @@ public class BTHelper extends AppCompatActivity
 		}
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void disableBT()
 	{
-		super.onCreate(savedInstanceState);
+		myBluetoothAdapter.disable();
 	}
 
 	public void showPaired(ArrayAdapter<String> adaptadorLlista, ProgressDialog progress)
 	{
-		myArrayAdapter = adaptadorLlista;
-		myArrayAdapter.clear();
+		adaptadorLlista.clear();
 		myProgress = progress;
 
 		if (myBluetoothAdapter.getBondedDevices().size() > 0)
@@ -79,7 +92,7 @@ public class BTHelper extends AppCompatActivity
 	}
 
 	public void startSearching()
-	{		
+	{
 		myBluetoothAdapter.startDiscovery();
 	}
 
@@ -91,9 +104,30 @@ public class BTHelper extends AppCompatActivity
 
 	public void openSocket()
 	{
-		if(isDeviceSelected)
+		/* sanity check */
+		if(!isConnected &&
+			isDeviceSelected &&
+			myBluetoothAdapter != null &&
+			myBluetoothDevice != null &&
+			myBluetoothSocket == null)
 		{
+			TimerTask task = new TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					if(myProgress != null)
+					{
+						myProgress.dismiss();
+					}
+				}
+			};
+
+			Timer timer = new Timer();
+			timer.schedule(task, 500);
+
 			new connectToSocket().execute();
+
 		}
 		else
 		{
@@ -119,11 +153,8 @@ public class BTHelper extends AppCompatActivity
 				if (myBluetoothSocket == null || !isConnected)
 				{
 					myBluetoothSocket = myBluetoothDevice.createInsecureRfcommSocketToServiceRecord(UUIDserie);
-					publishProgress();
 					myBluetoothSocket.connect();
-					publishProgress();
 					isConnected = true;
-					publishProgress();
 				}
 			}
 			catch (IOException e)
@@ -131,12 +162,6 @@ public class BTHelper extends AppCompatActivity
 				isConnected = false;
 			}
 			return null;
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... params)
-		{
-			myProgress.incrementProgressBy(10);
 		}
 
 		@Override
@@ -171,10 +196,21 @@ public class BTHelper extends AppCompatActivity
 	{
 		try
 		{
-			myBluetoothSocket.close();
-			myBluetoothSocket = null;
+			if(myBluetoothSocket != null)
+			{
+				myBluetoothSocket.close();
+				myBluetoothSocket = null;
+			}
+			if(myBluetoothDevice != null)
+			{
+				myBluetoothDevice = null;
+			}
+			if(myProgress != null)
+			{
+				myProgress.dismiss();
+				myProgress = null;
+			}
 			isConnected = false;
-			myBluetoothDevice = null;
 			isDeviceSelected = false;
 			showToast("Disconnected");
 		}
@@ -208,6 +244,14 @@ public class BTHelper extends AppCompatActivity
 	@Override
 	public void onDestroy()
 	{
+		try
+		{
+			unregisterReceiver(myReceiver);
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
 		disconnect();
 		super.onDestroy();
 	}

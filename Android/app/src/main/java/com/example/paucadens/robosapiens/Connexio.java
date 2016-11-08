@@ -74,7 +74,7 @@ public class Connexio extends AppCompatActivity
 		});
 	}
 
-	private BroadcastReceiver myReceiver = new BroadcastReceiver()
+	private final BroadcastReceiver myReceiver = new BroadcastReceiver()
 	{
 		public void onReceive(Context context, Intent intent)
 		{
@@ -109,14 +109,23 @@ public class Connexio extends AppCompatActivity
 
 			Intent i = new Intent(Connexio.this, Moviment.class);
 			startActivity(i);
+
 		}
 	};
 
 	@Override
 	public void onDestroy()
 	{
-		unregisterReceiver(myReceiver);
-		myBTHelper.onDestroy();
+		try
+		{
+			unregisterReceiver(myReceiver);
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		myBTHelper.disableBT();
+		finish();
 		super.onDestroy();
 	}
 }

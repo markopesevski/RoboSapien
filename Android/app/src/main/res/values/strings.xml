@@ -8,7 +8,6 @@
     <string name="grip_text">Agafar</string>
     <string name="arm_out_text">Obrir Braç</string>
     <string name="arm_in_text">Tancar Braç</string>
-    <string name="desconnectar_text">Desconnectar</string>
     <string name="tilt_body_text">Inclinar</string>
     <string name="calibrar_text">Calibrar</string>
     <string name="estat_text">Estat: </string>
@@ -19,5 +18,4 @@
         <item> Ball 2 </item>
         <item> Ball 3 </item>
     </string-array>
-    <string name="Balls"> Balls: </string>
 </resources>
