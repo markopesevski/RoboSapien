@@ -6,8 +6,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +22,6 @@ public class BTHelper extends AppCompatActivity
 	private static BluetoothSocket myBluetoothSocket = null;
 	private static boolean isDeviceSelected = false;
 	private static boolean isConnected;
-	public static Intent myActivateBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 	public ArrayAdapter<String> myArrayAdapter = null;
 	public ProgressDialog myProgress = null;
 	public Context myContext = null;

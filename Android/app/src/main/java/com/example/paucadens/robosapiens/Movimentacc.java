@@ -55,7 +55,6 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 	private TextView estats;
 	private static boolean enviar_comandes = false;
 	private static Button stop_acc;
-	private BTHelper myBTHelper = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -67,7 +66,6 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_movimentacc);
 
-		myBTHelper = new BTHelper(Movimentacc.this);
 		myMoviment = new Moviment();
 
 		calibrar = (Button)findViewById(R.id.calibrar);
@@ -116,21 +114,15 @@ public class Movimentacc extends AppCompatActivity implements SensorEventListene
 		{
 			enviar_comandes = false;
 			myMoviment.stop();
-			stop_acc.clearComposingText();
 			stop_acc.setBackgroundResource(R.drawable.button_green);
-			stop_acc.setTextColor(0x000000);
 			stop_acc.setText(R.string.start_acc_text);
-			stop_acc.setTextColor(0x000000);
 			estats.setText(estats_text[7]);
 		}
 		else
 		{
 			enviar_comandes = true;
-			stop_acc.clearComposingText();
 			stop_acc.setBackgroundResource(R.drawable.button_red);
-			stop_acc.setTextColor(0xFFFFFF);
 			stop_acc.setText(R.string.stop_acc_text);
-			stop_acc.setTextColor(0xFFFFFF);
 		}
 	}
 

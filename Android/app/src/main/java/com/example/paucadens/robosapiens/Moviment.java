@@ -97,7 +97,6 @@ public class Moviment extends AppCompatActivity
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerBalls.setAdapter(adapter);
 
-
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		adapter.add("Ball 1");
 		adapter.add("Ball 2");
@@ -282,8 +281,6 @@ public class Moviment extends AppCompatActivity
 				finish();
 			}
 		});
-
-
 	}
 
 	public void up()
