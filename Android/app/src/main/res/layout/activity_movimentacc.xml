@@ -18,7 +18,7 @@
         android:id="@+id/calibrar"
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
-        android:textSize="21dp">
+        android:textSize="21sp">
     </Button>
 
     <Button
@@ -28,11 +28,11 @@
         android:id="@+id/stop_acc"
         android:background="@drawable/button_green"
         android:textColor="@color/colorWhite"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginTop="32dp"
         android:layout_below="@+id/calibrar"
         android:layout_centerHorizontal="true"
-        style="@style/button_text_verd">
+        style="@style/button_text">
     </Button>
 
     <Button
@@ -51,7 +51,7 @@
         android:id="@+id/estats"
         android:background="#BDBDBD"
         android:textColor="#000000"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_below="@+id/tornarenradere"
         android:layout_alignParentLeft="true">
     </TextView>

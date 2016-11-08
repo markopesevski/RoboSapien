@@ -2,6 +2,7 @@ package com.example.paucadens.robosapiens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 public class Moviment extends AppCompatActivity
 {
-	private static BTHelper myBTHelper;
+	private final BTHelper myBTHelper;
 
 	public Moviment()
 	{
@@ -75,8 +76,9 @@ public class Moviment extends AppCompatActivity
 
 		adapter = new ArrayAdapter<String>(Moviment.this, android.R.layout.simple_spinner_dropdown_item)
 		{
+			@NonNull
 			@Override
-			public View getView(int position, View convertView, ViewGroup parent)
+			public View getView(int position, View convertView, @NonNull ViewGroup parent)
 			{
 				View v = super.getView(position, convertView, parent);
 				if (position == getCount())
@@ -96,7 +98,6 @@ public class Moviment extends AppCompatActivity
 		};
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerBalls.setAdapter(adapter);
-
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		adapter.add("Ball 1");
@@ -279,11 +280,8 @@ public class Moviment extends AppCompatActivity
 			{
 				Intent i=new Intent(Moviment.this,Movimentacc.class);
 				startActivity(i);
-				finish();
 			}
 		});
-
-
 	}
 
 	public void up()
@@ -414,6 +412,8 @@ public class Moviment extends AppCompatActivity
 	@Override
 	public void onDestroy()
 	{
+		finish();
+		myBTHelper.disconnect();
 		super.onDestroy();
 	}
 }

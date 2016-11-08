@@ -120,7 +120,6 @@
 			android:id="@+id/down"
 			android:layout_column="2"
 			android:layout_row="3"
-			android:layout_centerHorizontal="true"
 			android:background="@drawable/fletxa">
 		</Button>
 
