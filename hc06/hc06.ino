@@ -237,7 +237,6 @@ void loop()
   {
     if(millis() >= tiempo + 30*1000)
     {
-      tiempo = millis();
       switch(maquina_demo)
       {
         case 1:
@@ -255,12 +254,14 @@ void loop()
         default:
         break;
       }
+      tiempo = millis();
     }
   }
 }
 
 void ball_1(void)
 {
+  Serial.println("Executant ball 1");
   writeCommand(leftArmUp);
   delay(50);
   writeCommand(rightArmUp);
@@ -307,6 +308,7 @@ void ball_1(void)
 
 void ball_2(void)
 {
+  Serial.println("Executant ball 2");
   for (int i = 0; i < 6; i++)
   {
     writeCommand(tiltBodyLeft);
@@ -333,6 +335,7 @@ void ball_2(void)
 
 void ball_3(void)
 {
+  Serial.println("Executant ball 3");
   for(int i = 0; i < 5; i++)
   {
     writeCommand(leftTurnStep);
