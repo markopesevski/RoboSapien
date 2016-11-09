@@ -75,7 +75,6 @@ char inbytes = 0;
 int i = 0;
 int irPin = 13;
 int tsDelay = 833;
-int atendreComandes = 1;
 
 SoftwareSerial BT(2,3); // 2 RX, 3 TX
 
@@ -118,112 +117,106 @@ void loop()
   {
     ultimaComandaBT = millis();
     demo = false;
-    if(atendreComandes && inbytes != 'e')
+    Serial.print("BT rx: ");
+    Serial.println(inbytes);
+    if (inbytes == 'a')
     {
-      Serial.print("BT rx: ");
-      Serial.println(inbytes);
-      if (inbytes == 'a')
+      writeCommand(walkForward);
+    }
+    else if (inbytes == 'b')
+    {
+      writeCommand(walkBackward);
+    }
+    else if (inbytes == 'c')
+    {
+      writeCommand(turnLeft);
+    }
+    else if (inbytes == 'd')
+    {
+      writeCommand(turnRight);
+    }
+    else if (inbytes == 'e')
+    {
+      writeCommand(stopMoving);
+    }
+    else if (inbytes == 'f')
+    {
+      writeCommand(rightArmUp);
+    }
+    else if (inbytes == 'g')
+    {
+      writeCommand(leftArmUp);
+    }
+    else if (inbytes == 'h')
+    {
+      writeCommand(rightArmDown);
+    }
+    else if (inbytes == 'i')
+    {
+      writeCommand(leftArmDown);
+    }
+    else if (inbytes == 'j')
+    {
+      writeCommand(leftArmOut);
+    }
+    else if (inbytes == 'k')
+    {
+      writeCommand(leftArmIn);
+    }
+    else if (inbytes == 'l') //obrir ma esquerra
+    {
+      writeCommand(rightArmOut);
+    }
+    else if (inbytes == 'm') //tancar ma esquerra
+    {
+      writeCommand(rightArmIn);
+    }
+    else if (inbytes == 'n') //obrir ma dreta
+    {
+      writeCommand(tiltBodyLeft);
+    }
+    else if (inbytes == 'o') // tancar ma dreta
+    {
+      writeCommand(tiltBodyRight);
+    }
+    else if (inbytes == 'p') // tancar garra esquerra
+    {
+      if(garra_esquerra == 0)
       {
-        writeCommand(walkForward);
+        writeCommand(leftHandPickup);
+        garra_esquerra = 1;
       }
-      else if (inbytes == 'b')
+      else if (garra_esquerra == 1)
       {
-        writeCommand(walkBackward);
+        writeCommand(leftHandPickup);
+        garra_esquerra = 0;
       }
-      else if (inbytes == 'c')
+    }
+    else if (inbytes == 'q') // tancar garra dreta
+    {
+      if(garra_dreta == 0)
       {
-        writeCommand(turnLeft);
+        writeCommand(rightHandPickup);
+        garra_dreta = 1;
       }
-      else if (inbytes == 'd')
+      else if (garra_dreta == 1)
       {
-        writeCommand(turnRight);
+        writeCommand(rightHandPickup);
+        garra_dreta = 0;
       }
-      else if (inbytes == 'e')
-      {
-        writeCommand(stopMoving);
-      }
-      else if (inbytes == 'f')
-      {
-        writeCommand(rightArmUp);
-      }
-      else if (inbytes == 'g')
-      {
-        writeCommand(leftArmUp);
-      }
-      else if (inbytes == 'h')
-      {
-        writeCommand(rightArmDown);
-      }
-      else if (inbytes == 'i')
-      {
-        writeCommand(leftArmDown);
-      }
-      else if (inbytes == 'j')
-      {
-        writeCommand(leftArmOut);
-      }
-      else if (inbytes == 'k')
-      {
-        writeCommand(leftArmIn);
-      }
-      else if (inbytes == 'l') //obrir ma esquerra
-      {
-        writeCommand(rightArmOut);
-      }
-      else if (inbytes == 'm') //tancar ma esquerra
-      {
-        writeCommand(rightArmIn);
-      }
-      else if (inbytes == 'n') //obrir ma dreta
-      {
-        writeCommand(tiltBodyLeft);
-      }
-      else if (inbytes == 'o') // tancar ma dreta
-      {
-        writeCommand(tiltBodyRight);
-      }
-      else if (inbytes == 'p') // tancar garra esquerra
-      {
-        if(garra_esquerra == 0)
-        {
-          writeCommand(leftHandPickup);
-          garra_esquerra = 1;
-        }
-        else if (garra_esquerra == 1)
-        {
-          writeCommand(leftHandPickup);
-          garra_esquerra = 0;
-        }
-      }
-      else if (inbytes == 'q') // tancar garra dreta
-      {
-        if(garra_dreta == 0)
-        {
-          writeCommand(rightHandPickup);
-          garra_dreta = 1;
-        }
-        else if (garra_dreta == 1)
-        {
-          writeCommand(rightHandPickup);
-          garra_dreta = 0;
-        }
-
-      }
-      else if (inbytes == '1') // ball numero 1
-      {
-        atendreComandes = 0;
-        ball_1();
-      }
-      else if (inbytes == '2') // ball numero 2
-      {
-        atendreComandes = 0;
-        ball_2();
-      }
-      else if (inbytes == '3') // ball numero 3
-      {
-        atendreComandes = 0;
-        ball_3();
-      }
+    
+    }
+    else if (inbytes == '1') // ball numero 1
+    {
+      ball_1();
+    }
+    else if (inbytes == '2') // ball numero 2
+    {
+      ball_2();
+    }
+    else if (inbytes == '3') // ball numero 3
+    {
+      ball_3();
     }
   }
 
@@ -303,7 +296,6 @@ void ball_1(void)
   delay(2000);
   
   writeCommand(stopMoving);
-  atendreComandes = 1;
 }
 
 void ball_2(void)
@@ -329,7 +321,6 @@ void ball_2(void)
   }
   
   writeCommand(stopMoving);
-  atendreComandes = 1;
 }
 
 
@@ -356,6 +347,5 @@ void ball_3(void)
   delay(1000);
   
   writeCommand(stopMoving);
-  atendreComandes = 1;
 }
 
