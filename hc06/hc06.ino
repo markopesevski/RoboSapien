@@ -1,39 +1,39 @@
 #include <SoftwareSerial.h>
 
 enum roboCommand {
-  turnRight       = 0x80,
-  rightArmUp        = 0x81,
+  turnRight       = 0x80, // caminar a la dreta
+  rightArmUp        = 0x81, // aixecar braç dret
   rightArmOut       = 0x82, //obrir ma dreta
-  tiltBodyRight     = 0x83,
-  rightArmDown      = 0x84,
+  tiltBodyRight     = 0x83, // inclinar-se a la dreta
+  rightArmDown      = 0x84, // abaixar braç dret
   rightArmIn        = 0x85, // tancar ma dreta
   walkForward       = 0x86, // caminar endavant
   walkBackward      = 0x87, // caminar enrera
-  turnLeft        = 0x88,
-  leftArmUp       = 0x89,
-  leftArmOut        = 0x8A, //obrir ma esquerra
-  tiltBodyLeft      = 0x8B,
-  leftArmDown       = 0x8C,
-  leftArmIn       = 0x8D, //tancar ma esquerra
-  stopMoving        = 0x8E,
+  turnLeft        = 0x88, // caminar a l'esquerra
+  leftArmUp       = 0x89, // aixecar braç esquerre
+  leftArmOut        = 0x8A, // obrir ma esquerra
+  tiltBodyLeft      = 0x8B, // inclinar-se a l'esquerra
+  leftArmDown       = 0x8C, // abaixar braç esquerre
+  leftArmIn       = 0x8D, // tancar ma esquerra
+  stopMoving        = 0x8E, // parar
   masterCommandProgram  = 0x90,
   programPlay       = 0x91,
   rightSensorProgram    = 0x92,
   leftSensorProgram   = 0x93,
   sonicSensorProgram    = 0x94,
-  rightTurnStep     = 0xA0,
-  rightHandThump      = 0xA1,
-  rightHandThrow      = 0xA2,
+  rightTurnStep     = 0xA0, // unes quantes passades a la dreta
+  rightHandThump      = 0xA1, // "pegar un cop" amb la dreta
+  rightHandThrow      = 0xA2, // llençar algun objecte amb la dreta
   sleep         = 0xA3,
-  rightHandPickup     = 0xA4,
+  rightHandPickup     = 0xA4, // agafar alguna cosa amb la pinça dreta
   leanBackward      = 0xA5,
   forwardStep       = 0xA6,
   backwardStep      = 0xA7,
-  leftTurnStep      = 0xA8,
-  leftHandThump     = 0xA9,
-  leftHandThrow     = 0xAA,
+  leftTurnStep      = 0xA8, // unes quantes passades a l'esquerra
+  leftHandThump     = 0xA9, // "pegar un cop" amb l'esquerra
+  leftHandThrow     = 0xAA, // llençar algun objecte amb l'esquerra
   listenMicrophone    = 0xAB,
-  leftHandPickup      = 0xAC,
+  leftHandPickup      = 0xAC, // agafar alguna cosa amb la pinça esquerra
   leanForward       = 0xAD,
   reset         = 0xAE,
   execute         = 0xB0,
@@ -41,26 +41,26 @@ enum roboCommand {
   right         = 0xB2,
   left          = 0xB3,
   sonic         = 0xB4,
-  rightHandStrike3    = 0xC0,
+  rightHandStrike3    = 0xC0, // pegar un cop estil kung-fu amb la dreta
   rightHandSweep      = 0xC1,
-  burp          = 0xC2,
-  rightHandStrike2    = 0xC3,
-  high_five       = 0xC4,
-  rightHandStrike1    = 0xC5,
-  bulldozer       = 0xC6,
-  fart          = 0xC7,
-  leftHandStrike3     = 0xC8,
+  burp          = 0xC2, // rot
+  rightHandStrike2    = 0xC3, // pegar un cop estil kung-fu amb la dreta
+  high_five       = 0xC4, // "xocar la ma" dreta
+  rightHandStrike1    = 0xC5, // pegar un cop estil kung-fu amb la dreta
+  bulldozer       = 0xC6, // caminar endavant arrasant amb tot
+  fart          = 0xC7, // peaco
+  leftHandStrike3     = 0xC8, // pegar un cop estil kung-fu amb la dreta
   leftHandSweep     = 0xC9,
-  whistle         = 0xCA,
-  leftHandStrike2     = 0xCB,
+  whistle         = 0xCA, // xiular
+  leftHandStrike2     = 0xCB, // pegar un cop estil kung-fu amb la dreta
   talkback        = 0xCC,
-  leftHandStrike1     = 0xCD,
+  leftHandStrike1     = 0xCD, // pegar un cop estil kung-fu amb la dreta
   roar          = 0xCE,
   allDemo         = 0xD0,
   powerOff        = 0xD1,
   demo1         = 0xD2,
   demo2         = 0xD3,
-  dance         = 0xD4
+  dance         = 0xD4 // ball molt llarg
 };
 
 int garra_esquerra = 1;
@@ -80,7 +80,6 @@ void setup()
 {
   Serial.begin(115200);
   BT.begin(9600);
- /* hola soc el Pau */
 }
 
 void delayTs(unsigned int slices)
@@ -228,28 +227,70 @@ void loop()
 void ball_1(void)
 {
   writeCommand(leftArmUp);
+  delay(50);
   writeCommand(rightArmUp);
-  delay(100);
+  delay(1000);
   writeCommand(leftArmUp);
+  delay(50);
   writeCommand(rightArmUp);
-  delay(100);
+  delay(1000);
+  writeCommand(leftArmUp);
+  delay(50);
+  writeCommand(rightArmUp);
+  delay(500);
 
   for(int i = 0; i < 5; i++)
   {
     writeCommand(leftArmOut);
+    delay(50);
     writeCommand(rightArmIn);
-    delay(100);
+    delay(500);
     writeCommand(leftArmIn);
+    delay(50);
     writeCommand(rightArmOut);
-    delay(100);
+    delay(500);
   }
 
+  writeCommand(leftArmDown);
+  delay(50);
+  writeCommand(rightArmDown);
+  delay(500);
+  writeCommand(high_five);
+  delay(6000);
+  writeCommand(rightArmIn);
+  delay(50);
+  writeCommand(rightArmDown);
+  delay(50);
+  writeCommand(leftArmIn);
+  delay(50);
+  writeCommand(leftArmDown);
+  delay(2000);
+  
   writeCommand(stopMoving);
   atendreComandes = 1;
 }
 
 void ball_2(void)
 {
+  for (int i = 0; i < 6; i++)
+  {
+    writeCommand(tiltBodyLeft);
+    delay(500);
+    writeCommand(tiltBodyRight);
+    delay(500);
+  }
+  
+  writeCommand(burp);
+  delay(1000);
+
+  for (i = 0; i < 6; i++)
+  {
+    writeCommand(tiltBodyLeft);
+    delay(500);
+    writeCommand(tiltBodyRight);
+    delay(500);
+  }
+  
   writeCommand(stopMoving);
   atendreComandes = 1;
 }
@@ -257,6 +298,25 @@ void ball_2(void)
 
 void ball_3(void)
 {
+  for(int i = 0; i < 5; i++)
+  {
+    writeCommand(leftTurnStep);
+    delay(2000);
+    writeCommand(rightTurnStep);
+    delay(2000);
+  }
+
+  writeCommand(whistle);
+  delay(5000);
+  writeCommand(rightArmDown);
+  delay(50);
+  writeCommand(rightArmIn);
+  delay(50);
+  writeCommand(leftArmDown);
+  delay(50);
+  writeCommand(leftArmIn);
+  delay(1000);
+  
   writeCommand(stopMoving);
   atendreComandes = 1;
 }

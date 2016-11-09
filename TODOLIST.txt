@@ -1,0 +1,4 @@
+Editar l'spinner dels balls per a que es pugui escollir repetidament el mateix ball.
+Assegurar que el robot aixequi els braços del tot quan fa el ball 1.
+
+
