@@ -66,11 +66,10 @@ enum roboCommand {
 int maquina_demo = 1;
 int garra_esquerra = 1;
 int garra_dreta = 1;
-bool demo = true;
+int demo = 0;
 
-long tiempo = 0;
-long ultimaComandaBT = 0;
-float ultimaTransmissioMillis = 0;
+unsigned long tiempo = 0;
+unsigned long ultimaComandaBT = 0;
 char inbytes = 0;
 int i = 0;
 int irPin = 13;
@@ -116,7 +115,14 @@ void loop()
   if(BT.available() > 0)
   {
     ultimaComandaBT = millis();
-    demo = false;
+    inbytes = BT.read();
+    if (demo != 0)
+    {
+      Serial.print("Desactivo demo! (");
+      Serial.print(millis());
+      Serial.println(")");
+    }
+    demo = 0;
     Serial.print("BT rx: ");
     Serial.println(inbytes);
     if (inbytes == 'a')
@@ -203,8 +209,7 @@ void loop()
       {
         writeCommand(rightHandPickup);
         garra_dreta = 0;
-      }
-    
+      }    
     }
     else if (inbytes == '1') // ball numero 1
     {
@@ -219,16 +224,9 @@ void loop()
       ball_3();
     }
   }
-
-  if(millis() >= ultimaComandaBT + 60*1000)
+  if(demo != 0)
   {
-    demo = true;
-    maquina_demo = 1;
-  }
-  
-  if(demo)
-  {
-    if(millis() >= tiempo + 30*1000)
+    if(millis() > tiempo + (30*1000))
     {
       switch(maquina_demo)
       {
@@ -250,11 +248,24 @@ void loop()
       tiempo = millis();
     }
   }
+  else
+  {
+    if(millis() > ultimaComandaBT + (60000))
+    {
+      Serial.print("Activo demo! (");
+      Serial.print(millis());
+      Serial.println(")");
+      demo = 1;
+      maquina_demo = 1;
+    }
+  }
 }
 
 void ball_1(void)
 {
-  Serial.println("Executant ball 1");
+  Serial.print("Executant ball 1! (");
+  Serial.print(millis());
+  Serial.println(")");
   writeCommand(leftArmUp);
   delay(50);
   writeCommand(rightArmUp);
@@ -300,7 +311,9 @@ void ball_1(void)
 
 void ball_2(void)
 {
-  Serial.println("Executant ball 2");
+  Serial.print("Executant ball 2! (");
+  Serial.print(millis());
+  Serial.println(")");
   for (int i = 0; i < 6; i++)
   {
     writeCommand(tiltBodyLeft);
@@ -326,7 +339,9 @@ void ball_2(void)
 
 void ball_3(void)
 {
-  Serial.println("Executant ball 3");
+  Serial.print("Executant ball 3! (");
+  Serial.print(millis());
+  Serial.println(")");
   for(int i = 0; i < 5; i++)
   {
     writeCommand(leftTurnStep);
