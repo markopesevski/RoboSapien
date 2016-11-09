@@ -16,6 +16,8 @@ import android.widget.TextView;
 public class Moviment extends AppCompatActivity
 {
 	private final BTHelper myBTHelper;
+	private Spinner spinnerBalls;
+	private ArrayAdapter<String> adapter;
 
 	public Moviment()
 	{
@@ -44,9 +46,7 @@ public class Moviment extends AppCompatActivity
 		Button gripRight;
 		ImageView cararobot;
 		Button desconnectar;
-		Spinner spinnerBalls;
 		SpinnerActivity gestorBalls;
-		ArrayAdapter<String> adapter;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
@@ -392,20 +392,24 @@ public class Moviment extends AppCompatActivity
 			if(pos == 0)
 			{
 				ball_1();
+				spinnerBalls.setSelection(adapter.getCount());
 			}
 			else if(pos == 1)
 			{
 				ball_2();
+				spinnerBalls.setSelection(adapter.getCount());
 			}
 			else if(pos == 2)
 			{
 				ball_3();
+				spinnerBalls.setSelection(adapter.getCount());
 			}
 		}
 
 		public void onNothingSelected(AdapterView<?> parent)
 		{
 			// Another interface callback
+			spinnerBalls.setSelection(adapter.getCount());
 		}
 	}
 
